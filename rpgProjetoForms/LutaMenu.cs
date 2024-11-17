@@ -1,0 +1,51 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using rpgProjetoForms.Models;
+
+namespace rpgProjetoForms
+{
+    public partial class LutaMenu : Form
+    {
+        Player p;
+        Personagem perso;
+        Contexto db;
+        public LutaMenu(Player player, Personagem personagem)
+        {
+            InitializeComponent();
+            p = player;
+            perso = personagem;
+            db = new Contexto();
+
+            try
+            {
+                lutasDataGrid.DataSource = db.Luta.Where(l => l.Fk_desafiado_id == p.Id || l.Fk_desafiante_id == p.Id).ToList();
+            }
+            catch(Exception)
+            {
+
+            }
+
+        }
+
+        private void voltarToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            InventárioMenu i = new InventárioMenu(p);
+            this.Hide();
+            i.Show();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            LutaTela novaLuta = new LutaTela(p, perso, db.Personagem.First(perso => perso.Id == 5));
+            this.Hide();
+            novaLuta.Show();
+        }
+    }
+}

@@ -1,0 +1,1151 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using rpgProjetoForms.Models;
+
+namespace rpgProjetoForms
+{
+    public partial class LutaTela : Form
+    {
+        Random geradorNum = new Random();
+        Contexto db;
+        Player player;
+        Personagem p1;
+        Personagem p2;
+        Habilidade h1, h2, h3, h4, h5;
+        Habilidade p2_h1, p2_h2, p2_h3, p2_h4, p2_h5;
+        int round = 0;
+        int vida, defesa, forca, presenca, vigor, intelecto, agilidade, defesa_buff, forca_buff, pontos_esforco;
+        int vida2, defesa2, forca2, presenca2, vigor2, intelecto2, agilidade2, defesa_buff2, forca_buff2, pontos_esforco2;
+        string jogada = "inicio";
+        Habilidade player_habilidadeEscolhida, bot_habilidadeEscolhida;
+
+        int contBuffDano =-3, contDebuffDano =-3, contBuffDefesa =-3, contDebuffDefesa =-3, contVeneno =-3;
+        int contBuffDano2 =-3, contDebuffDano2 =-3, contBuffDefesa2 =-3, contDebuffDefesa2 =-3, contVeneno2 =-3;
+
+        int buffDanoSalvar, debuffDanoSalvar, buffDefesaSalvar, debuffDefesaSalvar, venenoSalvar;
+        int buffDanoSalvar2, debuffDanoSalvar2, buffDefesaSalvar2, debuffDefesaSalvar2, venenoSalvar2;
+
+
+
+        public static Image ByteArrayToImage(byte[] byteArray, PictureBox p)
+        {
+            try
+            {
+                using (MemoryStream mStream = new MemoryStream(byteArray))
+                {
+                    return Image.FromStream(mStream);
+                }
+            }
+
+            catch (Exception)
+            {
+                return p.ErrorImage;
+            }
+        }
+        public void ContadorPlayer()
+        {
+            //Contador do player1
+
+            if (contBuffDano > 0)
+            {
+                contBuffDano--;
+            }
+            else if (contBuffDano == 0)
+            {
+                forca_buff -= buffDanoSalvar;
+                contBuffDano = -1;
+                MessageBox.Show("Buff de Dano Acabou!");
+            }
+            if (contBuffDefesa > 0)
+            {
+                contBuffDefesa--;
+            }
+            else if (contBuffDefesa == 0)
+            {
+                defesa_buff -= buffDefesaSalvar;
+                contBuffDefesa = -1;
+                MessageBox.Show("Buff de Defesa Acabou!");
+            }
+            if (contDebuffDano > 0)
+            {
+                contDebuffDano--;
+            }
+            else if (contDebuffDano == 0)
+            {
+                forca_buff2 += debuffDanoSalvar;
+                contDebuffDano = -1;
+                MessageBox.Show("DeBuff de Defesa Acabou!");
+            }
+            if (contDebuffDefesa > 0)
+            {
+                contDebuffDefesa--;
+            }
+            else if (contDebuffDefesa == 0)
+            {
+                defesa_buff2 += debuffDefesaSalvar;
+                contDebuffDefesa = -1;
+                MessageBox.Show("DeBuff de Defesa Acabou!");
+            }
+            if (contVeneno > 0)
+            {
+                contVeneno--;
+                MessageBox.Show("Você deu +" + venenoSalvar + " de dano em veneno!");
+                vida2 -= venenoSalvar;
+            }
+            else if (contVeneno == 0)
+            {
+                contVeneno = -1;
+                MessageBox.Show("Veneno Acabou!");
+            }
+        }
+        public void ContadorBot()
+        {
+            //Contador do botzin
+
+            if (contBuffDano2 > 0)
+            {
+                contBuffDano2--;
+            }
+            else if (contBuffDano2 == 0)
+            {
+                forca_buff2 -= buffDanoSalvar2;
+                contBuffDano2 = -1;
+                MessageBox.Show("Buff de Dano do Ínimigo Acabou!");
+            }
+            if (contBuffDefesa2 > 0)
+            {
+                contBuffDefesa2--;
+            }
+            else if (contBuffDefesa2 == 0)
+            {
+                defesa_buff2 -= buffDefesaSalvar2;
+                contBuffDefesa2 = -1;
+                MessageBox.Show("Buff de Defesa do Inimigo Acabou!");
+            }
+            if (contDebuffDano2 > 0)
+            {
+                contDebuffDano2--;
+            }
+            else if (contDebuffDano2 == 0)
+            {
+                forca_buff += debuffDanoSalvar2;
+                contDebuffDano2 = -1;
+                MessageBox.Show("DeBuff de Defesa em você Acabou!");
+            }
+            if (contDebuffDefesa2 > 0)
+            {
+                contDebuffDefesa2--;
+            }
+            else if (contDebuffDefesa2 == 0)
+            {
+                defesa_buff += debuffDefesaSalvar2;
+                contDebuffDefesa2 = -1;
+                MessageBox.Show("DeBuff de Defesa em você Acabou!");
+            }
+            if (contVeneno2 > 0)
+            {
+                contVeneno2--;
+                MessageBox.Show("Tomou +" + venenoSalvar + " de dano em veneno!");
+                vida -= venenoSalvar2;
+            }
+            else if (contVeneno2 == 0)
+            {
+                contVeneno2 = -1;
+                MessageBox.Show("Veneno Acabou!");
+            }
+
+            Refresh();
+        }
+
+        public void Refresh()
+        {
+            try
+            {
+
+
+                h1 = db.Habilidade.First(h => h.Id == p1.Habilidade1);
+                h2 = db.Habilidade.First(h => h.Id == p1.Habilidade2);
+                h3 = db.Habilidade.First(h => h.Id == p1.Habilidade3);
+                h4 = db.Habilidade.First(h => h.Id == p1.Habilidade4);
+                h5 = db.Habilidade.First(h => h.Id == p1.Habilidade5);
+
+                p2_h1 = db.Habilidade.First(h => h.Id == p2.Habilidade1);
+                p2_h2 = db.Habilidade.First(h => h.Id == p2.Habilidade2);
+                p2_h3 = db.Habilidade.First(h => h.Id == p2.Habilidade3);
+                p2_h4 = db.Habilidade.First(h => h.Id == p2.Habilidade4);
+                p2_h5 = db.Habilidade.First(h => h.Id == p2.Habilidade5);
+
+                habilidade1BoxPicture.Image = ByteArrayToImage(h1.Imagem, habilidade1BoxPicture);
+                habilidade2Picture.Image = ByteArrayToImage(h2.Imagem, habilidade2Picture);
+                habilidade3Picture.Image = ByteArrayToImage(h3.Imagem, habilidade3Picture);
+                habilidade4Picture.Image = ByteArrayToImage(h4.Imagem, habilidade4Picture);
+                habilidade5Picture.Image = ByteArrayToImage(h5.Imagem, habilidade5Picture);
+
+                //Config Bot
+
+
+                vida2Label.Text = "Vida: " + vida2;
+                defesa2Label.Text = "Defesa: " + defesa2;
+                forcabuffdebuff2label.Text = "Buff/Debuff Forca: " + forca_buff2;
+                defesabuffdebuff2Label.Text = "Buff/Debuff Defesa: " + defesa_buff2;
+                pontos2Label.Text = "Pontos de Esforço: " + pontos_esforco2;
+
+
+                //Config Jogador
+
+                vidaLabel.Text = "Vida: " + vida;
+                defesaLabel.Text = "Defesa: " + defesa;
+                forcaBuffDebuff.Text = "Buff/Debuff Forca: " + forca_buff;
+                defesaBuffDebuff.Text = "Buff/Debuff Defesa: " + defesa_buff;
+                pontosLabel.Text = "Pontos de Esforço: " + pontos_esforco;
+
+
+            }
+
+            catch (Exception)
+            {
+
+            }
+        }
+
+        public async void Rounds()
+        {
+            ContadorBot();
+            ContadorPlayer();
+            round++;
+            player_habilidadeEscolhida = new Habilidade();
+            bot_habilidadeEscolhida = new Habilidade();
+
+            this.Text = "Luta - Round: " + round;
+            habilidadePlayer2.Visible = false;
+            pularBt.Enabled = false;
+            usarBt.Enabled = false;
+            if (jogada == "inicio")
+            {
+                int quemJoga = geradorNum.Next(1, 3);
+                quemJoga = 1;
+                if (quemJoga == 1)
+                {
+                    MessageBox.Show("O Player começa!");
+                    jogada = "player";
+                    MessageBox.Show("Escolha uma habilidade ou skipe!");
+                }
+                else
+                {
+                    MessageBox.Show("O Bot começa!");
+                    jogada = "bot";
+                }
+            }
+
+            await Task.Delay(1000);
+
+            if (jogada == "player")
+            {
+                habilidadePlayer2.Visible = true;
+                habilidadesEscolha.Enabled = true;
+                pularBt.Enabled = true;
+            }
+            else if (jogada == "bot")
+            {
+
+                await Task.Delay(1000);
+                habilidadesEscolha.Enabled = false;
+                int rand = 0;
+                string acao;
+
+                do
+                {
+                    int qual = geradorNum.Next(1, 6);
+                    rand++;
+
+                    if (qual == 1)
+                    {
+                        bot_habilidadeEscolhida = p2_h1;
+                        habilidadePlayer2.Image = ByteArrayToImage(p2_h1.Imagem, habilidadePlayer2);
+                    }
+                    else if (qual == 2)
+                    {
+                        bot_habilidadeEscolhida = p2_h2;
+                        habilidadePlayer2.Image = ByteArrayToImage(p2_h2.Imagem, habilidadePlayer2);
+                    }
+                    else if (qual == 3)
+                    {
+                        bot_habilidadeEscolhida = p2_h3;
+                        habilidadePlayer2.Image = ByteArrayToImage(p2_h3.Imagem, habilidadePlayer2);
+                    }
+                    else if (qual == 4)
+                    {
+                        bot_habilidadeEscolhida = p2_h4;
+                        habilidadePlayer2.Image = ByteArrayToImage(p2_h4.Imagem, habilidadePlayer2);
+                    }
+                    else if (qual == 5)
+                    {
+                        bot_habilidadeEscolhida = p2_h5;
+                        habilidadePlayer2.Image = ByteArrayToImage(p2_h5.Imagem, habilidadePlayer2);
+                    }
+
+                    if (rand == 3)
+                    {
+                        jogada = "player";
+                        acao = "skip";
+                        habilidadePlayer2.Image = habilidadePlayer2.ErrorImage;
+                        pontos_esforco2 += 5 + (4 * p2.Agilidade);
+                        MessageBox.Show("O Inimigo decidiu Skipar!");
+                    }
+                    else
+                    {
+                        acao = "joga";
+                    }
+                } while (bot_habilidadeEscolhida.Custo > pontos_esforco) ;
+
+               if (acao == "joga")
+                {
+                    try
+                    {
+                        MessageBox.Show("Habilidade Usada: "+bot_habilidadeEscolhida.Nome);
+                        pontos_esforco2 -= bot_habilidadeEscolhida.Custo;
+                        if (bot_habilidadeEscolhida.Tipo.ToLower() == "cura")
+                        {
+                            vida2 += bot_habilidadeEscolhida.Dano;
+                        }
+                        else if (bot_habilidadeEscolhida.Tipo.ToLower() == "dano")
+                        {
+                            if (p2.Forca >= 1)
+                            {
+                                MessageBox.Show("Rolando dados...");
+                                int dado = geradorNum.Next(1, 20);
+                                int maior = 0;
+                                int dano = 0;
+                                for (int i = 0; i < p1.Forca; i++)
+                                {
+                                    dado = geradorNum.Next(1, 20);
+                                    if (dado > maior)
+                                    {
+                                        maior = dado;
+                                    }
+                                    MessageBox.Show("Número rolado: " + dado);
+                                }
+                                MessageBox.Show("Maior número: " + maior);
+                                if (maior == 1)
+                                {
+                                    MessageBox.Show("Desastre!");
+                                    dano = bot_habilidadeEscolhida.Dano + forca_buff2 + (-1 * defesa_buff) - defesa;
+                                }
+                                else if (maior <= 5)
+                                {
+                                    dano = bot_habilidadeEscolhida.Dano + forca_buff2 + (-1 * defesa_buff) - 5 - defesa;
+                                }
+                                else if (maior <= 9)
+                                {
+                                    dano = bot_habilidadeEscolhida.Dano + forca_buff2 + (-1 * defesa_buff) - 2 - defesa;
+                                }
+                                else if (maior <= 15)
+                                {
+                                    dano = bot_habilidadeEscolhida.Dano + forca_buff2 + (-1 * defesa_buff) - defesa;
+                                }
+                                else if (maior <= 19)
+                                {
+                                    MessageBox.Show("Você acertou em cheio!");
+                                    dano = bot_habilidadeEscolhida.Dano + forca_buff2 + (-1 * defesa_buff) + 2 - defesa;
+                                }
+                                else if (maior == 20)
+                                {
+                                    MessageBox.Show("Crítico!");
+                                    dano = bot_habilidadeEscolhida.Dano + forca_buff2 + (-1 * defesa_buff) + 5 - defesa;
+                                }
+                                vida -= dano;
+                                MessageBox.Show("Dano causado: " + dano);
+                            }
+                            else
+                            {
+                                vida = bot_habilidadeEscolhida.Dano + forca_buff2 + (-1 * defesa_buff) - 5 - defesa;
+                                MessageBox.Show("Dano causado: " + (bot_habilidadeEscolhida.Dano + forca_buff2 + (-1 * defesa_buff) - 5 - defesa));
+                            }
+
+                        }
+                        else if (bot_habilidadeEscolhida.Tipo.ToLower() == "buff_defesa")
+                        {
+                            defesa2 += bot_habilidadeEscolhida.Dano;
+                            contBuffDefesa2 = bot_habilidadeEscolhida.Rounds_uso;
+                            buffDefesaSalvar2 = bot_habilidadeEscolhida.Dano;
+                        }
+                        else if (bot_habilidadeEscolhida.Tipo.ToLower() == "buff_dano")
+                        {
+                            forca_buff2 += bot_habilidadeEscolhida.Dano;
+                            contBuffDano2 = bot_habilidadeEscolhida.Rounds_uso;
+                            buffDanoSalvar2 = bot_habilidadeEscolhida.Dano;
+                        }
+                        else if (bot_habilidadeEscolhida.Tipo.ToLower() == "debuff_dano")
+                        {
+                            if (p1.Intelecto >= 1)
+                            {
+                                MessageBox.Show("Rolando dados...");
+                                int dado = geradorNum.Next(1, 20);
+                                int maior = 0;
+                                int dano = 0;
+                                for (int i = 0; i < p1.Intelecto; i++)
+                                {
+                                    dado = geradorNum.Next(1, 20);
+                                    if (dado > maior)
+                                    {
+                                        maior = dado;
+                                    }
+                                    MessageBox.Show("Número rolado: " + dado);
+                                }
+                                MessageBox.Show("Maior número: " + maior);
+
+                                if (maior == 20)
+                                {
+                                    MessageBox.Show("Inimigo desviou!");
+                                    MessageBox.Show("Desastre! Se atacou");
+                                    vida2 -= 5;
+                                }
+                                else if (maior >= 17)
+                                {
+                                    MessageBox.Show("Inimigo desviou!");
+                                }
+                                else if (maior >= 15)
+                                {
+                                    MessageBox.Show("Atacou! Mas tomou um pouco de dano!");
+                                    vida2 -= 2;
+                                    forca_buff -= bot_habilidadeEscolhida.Dano;
+                                    contDebuffDano2 = 1 + bot_habilidadeEscolhida.Rounds_uso;
+                                    debuffDanoSalvar2 = bot_habilidadeEscolhida.Dano;
+                                }
+                                else if (maior >= 9)
+                                {
+                                    forca_buff -= bot_habilidadeEscolhida.Dano;
+                                    contDebuffDano2 = 1 + bot_habilidadeEscolhida.Rounds_uso;
+                                    debuffDanoSalvar2 = bot_habilidadeEscolhida.Dano;
+                                }
+                                else if (maior <= 4)
+                                {
+                                    MessageBox.Show("O inimigo caiu ao tentar desviar!!");
+                                }
+
+                            }
+                            else
+                            {
+                                forca_buff -= bot_habilidadeEscolhida.Dano + 2;
+                                contDebuffDano2 = 1 + bot_habilidadeEscolhida.Rounds_uso;
+                                debuffDanoSalvar2 = bot_habilidadeEscolhida.Dano + 2;
+                            }
+                        }
+
+                        else if (bot_habilidadeEscolhida.Tipo.ToLower() == "debuff_defesa")
+                        {
+                            if (p1.Intelecto >= 1)
+                            {
+                                MessageBox.Show("Rolando dados...");
+                                int dado = geradorNum.Next(1, 20);
+                                int maior = 0;
+                                int dano = 0;
+                                for (int i = 0; i < p1.Intelecto; i++)
+                                {
+                                    dado = geradorNum.Next(1, 20);
+                                    if (dado > maior)
+                                    {
+                                        maior = dado;
+                                    }
+                                    MessageBox.Show("Número rolado: " + dado);
+                                }
+                                MessageBox.Show("Maior número: " + maior);
+
+                                if (maior == 20)
+                                {
+                                    MessageBox.Show("Inimigo desviou!");
+                                    MessageBox.Show("Desastre! Se atacou");
+                                    vida -= 5;
+                                }
+                                else if (maior >= 17)
+                                {
+                                    MessageBox.Show("Inimigo desviou!");
+                                }
+                                else if (maior >= 15)
+                                {
+                                    MessageBox.Show("Atacou! Mas tomou um pouco de dano!");
+                                    vida2 -= 2;
+                                    defesa_buff -= bot_habilidadeEscolhida.Dano;
+                                    contDebuffDefesa2 = bot_habilidadeEscolhida.Rounds_uso;
+                                    debuffDefesaSalvar2 = bot_habilidadeEscolhida.Dano;
+                                }
+                                else if (maior >= 9)
+                                {
+                                    defesa_buff -= bot_habilidadeEscolhida.Dano;
+                                    contDebuffDefesa2 = bot_habilidadeEscolhida.Rounds_uso;
+                                    debuffDefesaSalvar2 = bot_habilidadeEscolhida.Dano;
+                                }
+                                else if (maior <= 4)
+                                {
+                                    MessageBox.Show("O inimigo caiu ao tentar desviar!!");
+                                    vida2 -= 3;
+                                }
+                            }
+                            else
+                            {
+                                defesa_buff -= bot_habilidadeEscolhida.Dano;
+                                contDebuffDefesa2 = bot_habilidadeEscolhida.Rounds_uso;
+                                debuffDefesaSalvar2 = bot_habilidadeEscolhida.Dano;
+                            }
+                        }
+                        else if (bot_habilidadeEscolhida.Tipo.ToLower() == "veneno")
+                        {
+                            if (p1.Intelecto >= 1)
+                            {
+                                MessageBox.Show("Rolando dados...");
+                                int dado = geradorNum.Next(1, 20);
+                                int maior = 0;
+                                int dano = 0;
+                                for (int i = 0; i < p1.Intelecto; i++)
+                                {
+                                    dado = geradorNum.Next(1, 20);
+                                    if (dado > maior)
+                                    {
+                                        maior = dado;
+                                    }
+                                    MessageBox.Show("Número rolado: " + dado);
+                                }
+                                MessageBox.Show("Maior número: " + maior);
+
+                                if (maior == 20)
+                                {
+                                    MessageBox.Show("Inimigo desviou!");
+                                    MessageBox.Show("Desastre! Se atacou");
+                                    vida2 -= 5;
+                                }
+                                else if (maior >= 17)
+                                {
+                                    MessageBox.Show("Inimigo desviou!");
+                                }
+                                else if (maior >= 15)
+                                {
+                                    MessageBox.Show("Atacou! Mas tomou um pouco de dano!");
+                                    vida2 -= 2;
+                                    venenoSalvar2 = bot_habilidadeEscolhida.Dano;
+                                    contVeneno2 = bot_habilidadeEscolhida.Rounds_uso;
+                                }
+                                else if (maior >= 9)
+                                {
+                                    venenoSalvar2 = bot_habilidadeEscolhida.Dano;
+                                    contVeneno2 = bot_habilidadeEscolhida.Rounds_uso;
+                                }
+                                else if (maior <= 4)
+                                {
+                                    MessageBox.Show("O inimigo caiu ao tentar desviar!!");
+                                    vida -= 3;
+                                }
+                            }
+                            else
+                            {
+                                venenoSalvar2 = bot_habilidadeEscolhida.Dano + 3;
+                                contVeneno2 = bot_habilidadeEscolhida.Rounds_uso;
+                            }
+                        }
+                        jogada = "player";
+                        pontos_esforco2 += 10 + (2 * p1.Agilidade);
+                        Rounds();
+                    }
+                    catch (Exception)
+                    {
+                        MessageBox.Show("Escolha uma habilidade!");
+                    }
+
+                }
+                if (acao == "skip")
+                {
+                    jogada = "player";
+                    pontos_esforco2 += 5 + (4 * p1.Agilidade);
+                    Rounds();
+                }
+            }
+        }
+        public LutaTela(Player player, Personagem perso1, Personagem perso2)
+        {
+            InitializeComponent();
+            this.player = player;
+            p1 = perso1;
+            p2 = perso2;
+            db = new Contexto();
+
+            vida2 = p2.Vida;
+            defesa2 = p2.Defesa;
+            forca2 = p2.Forca;
+            presenca2 = p2.Presenca;
+            vigor2 = p2.Vigor;
+            intelecto2 = p2.Intelecto;
+            agilidade2 = p2.Agilidade;
+            defesa_buff2 = p2.Defesa_buff;
+            forca_buff2 = p2.Forca_buff;
+            pontos_esforco = p2.PontosEsforco;
+            nome2PersonagemLabel.Text = "Bot - " + p2.Nome;
+
+            vida = p1.Vida;
+            defesa = p1.Defesa;
+            forca = p1.Forca;
+            presenca = p1.Presenca;
+            vigor = p1.Vigor;
+            intelecto = p1.Intelecto;
+            agilidade = p1.Agilidade;
+            defesa_buff = p1.Defesa_buff;
+            forca_buff = p1.Forca_buff;
+            pontos_esforco = 500;//p1.PontosEsforco;
+            nomeLabel.Text = player.Nome + " - " + p1.Nome;
+
+            Refresh();
+            Rounds();
+
+        }
+
+        private void usarBt_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                pontos_esforco -= player_habilidadeEscolhida.Custo;
+                if (player_habilidadeEscolhida.Tipo.ToLower() == "cura")
+                {
+                    vida += player_habilidadeEscolhida.Dano;
+                    MessageBox.Show(vida.ToString());
+                }
+                else if (player_habilidadeEscolhida.Tipo.ToLower() == "dano")
+                {
+                    if (p1.Forca >= 1)
+                    {
+                        MessageBox.Show("Rolando dados...");
+                        int dado = geradorNum.Next(1, 20);
+                        int maior = 0;
+                        int dano = 0;
+                        for (int i = 0; i < p1.Forca; i++)
+                        {
+                            dado = geradorNum.Next(1, 20);
+                            if (dado > maior)
+                            {
+                                maior = dado;
+                            }
+                            MessageBox.Show("Número rolado: " + dado);
+                        }
+                        MessageBox.Show("Maior número: " + maior);
+                        if (maior == 1)
+                        {
+                            MessageBox.Show("Desastre!");
+                            dano = player_habilidadeEscolhida.Dano + forca_buff + (-1 * defesa_buff2) - defesa2;
+                        }
+                        else if (maior <= 5)
+                        {
+                            dano = player_habilidadeEscolhida.Dano + forca_buff + (-1 * defesa_buff2) - 5 - defesa2;
+                        }
+                        else if (maior <= 9)
+                        {
+                            dano = player_habilidadeEscolhida.Dano + forca_buff + (-1 * defesa_buff2) - 2 - defesa2;
+                        }
+                        else if (maior <= 15)
+                        {
+                            dano = player_habilidadeEscolhida.Dano + forca_buff + (-1 * defesa_buff2) - defesa2;
+                        }
+                        else if (maior <= 19)
+                        {
+                            MessageBox.Show("Você acertou em cheio!");
+                            dano = player_habilidadeEscolhida.Dano + forca_buff + (-1 * defesa_buff2) + 2 - defesa2;
+                        }
+                        else if (maior == 20)
+                        {
+                            MessageBox.Show("Crítico!");
+                            dano = player_habilidadeEscolhida.Dano + forca_buff + (-1 * defesa_buff2) + 5 - defesa2;
+                        }
+                        vida2 -= dano;
+                        MessageBox.Show("Dano causado: " + dano);
+                    }
+                    else
+                    {
+                        vida2 = player_habilidadeEscolhida.Dano + forca_buff + (-1 * defesa_buff2) - 5 - defesa2;
+                        MessageBox.Show("Dano causado: " + (player_habilidadeEscolhida.Dano + forca_buff - defesa2 - 5));
+                    }
+
+                }
+                else if (player_habilidadeEscolhida.Tipo.ToLower() == "buff_defesa")
+                {
+                    defesa += player_habilidadeEscolhida.Dano;
+                    contBuffDefesa = player_habilidadeEscolhida.Rounds_uso;
+                    buffDefesaSalvar = player_habilidadeEscolhida.Dano;
+                }
+                else if (player_habilidadeEscolhida.Tipo.ToLower() == "buff_dano")
+                {
+                    forca_buff += player_habilidadeEscolhida.Dano;
+                    contBuffDano = player_habilidadeEscolhida.Rounds_uso;
+                    buffDanoSalvar = player_habilidadeEscolhida.Dano;
+                }
+                else if (player_habilidadeEscolhida.Tipo.ToLower() == "debuff_dano")
+                {
+                    if (p2.Intelecto >= 1)
+                    {
+                        MessageBox.Show("Rolando dados...");
+                        int dado = geradorNum.Next(1, 20);
+                        int maior = 0;
+                        int dano = 0;
+                        for (int i = 0; i < p2.Intelecto; i++)
+                        {
+                            dado = geradorNum.Next(1, 20);
+                            if (dado > maior)
+                            {
+                                maior = dado;
+                            }
+                            MessageBox.Show("Número rolado: " + dado);
+                        }
+                        MessageBox.Show("Maior número: " + maior);
+
+                        if (maior == 20)
+                        {
+                            MessageBox.Show("Inimigo desviou!");
+                            MessageBox.Show("Desastre! Se atacou");
+                            vida -= 5;
+                        }
+                        else if (maior >= 17)
+                        {
+                            MessageBox.Show("Inimigo desviou!");
+                        }
+                        else if (maior >= 15)
+                        {
+                            MessageBox.Show("Atacou! Mas tomou um pouco de dano!");
+                            vida -= 2;
+                            forca_buff2 -= player_habilidadeEscolhida.Dano;
+                            contDebuffDano = 1 + player_habilidadeEscolhida.Rounds_uso;
+                            debuffDanoSalvar = player_habilidadeEscolhida.Dano;
+                        }
+                        else if (maior >= 9)
+                        {
+                            forca_buff2 -= player_habilidadeEscolhida.Dano;
+                            contDebuffDano = 1 + player_habilidadeEscolhida.Rounds_uso;
+                            debuffDanoSalvar = player_habilidadeEscolhida.Dano;
+                        }
+                        else if (maior <= 4)
+                        {
+                            MessageBox.Show("O inimigo caiu ao tentar desviar!!");
+                        }
+
+                    }
+                    else
+                    {
+                        forca_buff2 -= player_habilidadeEscolhida.Dano + 2;
+                        contDebuffDano = 1 + player_habilidadeEscolhida.Rounds_uso;
+                        debuffDanoSalvar = player_habilidadeEscolhida.Dano + 2;
+                    }
+                }
+
+                else if (player_habilidadeEscolhida.Tipo.ToLower() == "debuff_defesa")
+                {
+                    if (p2.Intelecto >= 1)
+                    {
+                        MessageBox.Show("Rolando dados...");
+                        int dado = geradorNum.Next(1, 20);
+                        int maior = 0;
+                        int dano = 0;
+                        for (int i = 0; i < p2.Intelecto; i++)
+                        {
+                            dado = geradorNum.Next(1, 20);
+                            if (dado > maior)
+                            {
+                                maior = dado;
+                            }
+                            MessageBox.Show("Número rolado: " + dado);
+                        }
+                        MessageBox.Show("Maior número: " + maior);
+
+                        if (maior == 20)
+                        {
+                            MessageBox.Show("Inimigo desviou!");
+                            MessageBox.Show("Desastre! Se atacou");
+                            vida -= 5;
+                        }
+                        else if (maior >= 17)
+                        {
+                            MessageBox.Show("Inimigo desviou!");
+                        }
+                        else if (maior >= 15)
+                        {
+                            MessageBox.Show("Atacou! Mas tomou um pouco de dano!");
+                            vida -= 2;
+                            defesa_buff2 -= player_habilidadeEscolhida.Dano;
+                            contDebuffDefesa = player_habilidadeEscolhida.Rounds_uso;
+                            debuffDefesaSalvar = player_habilidadeEscolhida.Dano;
+                        }
+                        else if (maior >= 9)
+                        {
+                            defesa_buff2 -= player_habilidadeEscolhida.Dano;
+                            contDebuffDefesa = player_habilidadeEscolhida.Rounds_uso;
+                            debuffDefesaSalvar = player_habilidadeEscolhida.Dano;
+                        }
+                        else if (maior <= 4)
+                        {
+                            MessageBox.Show("O inimigo caiu ao tentar desviar!!");
+                            vida2 -= 3;
+                        }
+                    }
+                    else
+                    {
+                        defesa_buff2 -= player_habilidadeEscolhida.Dano;
+                        contDebuffDefesa = player_habilidadeEscolhida.Rounds_uso;
+                        debuffDefesaSalvar = player_habilidadeEscolhida.Dano;
+                    }
+                }
+                else if (player_habilidadeEscolhida.Tipo.ToLower() == "veneno")
+                {
+                    if (p2.Presenca >= 1)
+                    {
+                        MessageBox.Show("Rolando dados...");
+                        int dado = geradorNum.Next(1, 20);
+                        int maior = 0;
+                        int dano = 0;
+                        for (int i = 0; i < p2.Intelecto; i++)
+                        {
+                            dado = geradorNum.Next(1, 20);
+                            if (dado > maior)
+                            {
+                                maior = dado;
+                            }
+                            MessageBox.Show("Número rolado: " + dado);
+                        }
+                        MessageBox.Show("Maior número: " + maior);
+
+                        if (maior == 20)
+                        {
+                            MessageBox.Show("Inimigo desviou!");
+                            MessageBox.Show("Desastre! Se atacou");
+                            vida -= 5;
+                        }
+                        else if (maior >= 17)
+                        {
+                            MessageBox.Show("Inimigo desviou!");
+                        }
+                        else if (maior >= 15)
+                        {
+                            MessageBox.Show("Atacou! Mas tomou um pouco de dano!");
+                            vida -= 2;
+                            venenoSalvar = player_habilidadeEscolhida.Dano;
+                            contVeneno = player_habilidadeEscolhida.Rounds_uso;
+                        }
+                        else if (maior >= 9)
+                        {
+                            venenoSalvar = player_habilidadeEscolhida.Dano;
+                            contVeneno = player_habilidadeEscolhida.Rounds_uso;
+                        }
+                        else if (maior <= 4)
+                        {
+                            MessageBox.Show("O inimigo caiu ao tentar desviar!!");
+                            vida2 -= 3;
+                        }
+                    }
+                    else
+                    {
+                        venenoSalvar = player_habilidadeEscolhida.Dano+3;
+                        contVeneno = player_habilidadeEscolhida.Rounds_uso;
+                    }
+                }
+                jogada = "bot";
+                pontos_esforco += 10 + (2 * p1.Agilidade);
+                Rounds();
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Escolha uma habilidade!");
+            }
+
+        }
+
+        private void habilidade1BoxPicture_Click(object sender, EventArgs e)
+        {
+            groupBoxPlayer1.Visible = true;
+            nomeHabilidadeLabel.Text = "Nome: " + h1.Nome;
+            tipoLabel.Text = "Tipo: " + h1.Tipo;
+            if (h1.Tipo.ToLower() == "cura")
+            {
+                danoCuraLabel.Text = "Cura: " + h1.Dano;
+                roundsUso.Visible = false;
+            }
+            else if (h1.Tipo.ToLower() == "dano")
+            {
+                danoCuraLabel.Text = "Dano: " + h1.Dano;
+                roundsUso.Visible = false;
+            }
+            else if (h1.Tipo.ToLower() == "buff_defesa")
+            {
+                danoCuraLabel.Text = "Buff Defesa: " + h1.Dano;
+                roundsUso.Text = "Rounds: " + h1.Rounds_uso;
+                roundsUso.Visible = true;
+            }
+            else if (h1.Tipo.ToLower() == "buff_dano")
+            {
+                danoCuraLabel.Text = "Buff Dano: " + h1.Dano;
+                roundsUso.Text = "Rounds: " + h1.Rounds_uso;
+                roundsUso.Visible = true;
+            }
+            else if (h1.Tipo.ToLower() == "debuff_dano")
+            {
+                danoCuraLabel.Text = "Debuff Dano: " + h1.Dano;
+                roundsUso.Text = "Rounds: " + h1.Rounds_uso;
+                roundsUso.Visible = true;
+            }
+            else if (h1.Tipo.ToLower() == "debuff_defesa")
+            {
+                danoCuraLabel.Text = "Debuff Defesa: " + h1.Dano;
+                roundsUso.Text = "Rounds: " + h1.Rounds_uso;
+                roundsUso.Visible = true;
+            }
+            else if (h1.Tipo.ToLower() == "veneno")
+            {
+                danoCuraLabel.Text = "Veneno: " + h1.Dano;
+                roundsUso.Text = "Rounds: " + h1.Rounds_uso;
+                roundsUso.Visible = true;
+            }
+            custoLabel.Text = "Custo: " + h1.Custo;
+            player_habilidadeEscolhida = h1;
+            if (h1.Custo > pontos_esforco)
+            {
+                usarBt.Enabled = false;
+            }
+            else
+            {
+                usarBt.Enabled = true;
+            }
+        }
+
+        private void habilidade2Picture_Click(object sender, EventArgs e)
+        {
+            groupBoxPlayer1.Visible = true;
+            nomeHabilidadeLabel.Text = "Nome: " + h2.Nome;
+            tipoLabel.Text = "Tipo: " + h2.Tipo;
+            if (h2.Tipo.ToLower() == "cura")
+            {
+                danoCuraLabel.Text = "Cura: " + h2.Dano;
+                roundsUso.Visible = false;
+            }
+            else if (h2.Tipo.ToLower() == "dano")
+            {
+                danoCuraLabel.Text = "Dano: " + h2.Dano;
+                roundsUso.Visible = false;
+            }
+            else if (h2.Tipo.ToLower() == "buff_defesa")
+            {
+                danoCuraLabel.Text = "Buff Defesa: " + h2.Dano;
+                roundsUso.Text = "Rounds: " + h2.Rounds_uso;
+                roundsUso.Visible = true;
+            }
+            else if (h2.Tipo.ToLower() == "buff_dano")
+            {
+                danoCuraLabel.Text = "Buff Dano: " + h2.Dano;
+                roundsUso.Text = "Rounds: " + h2.Rounds_uso;
+                roundsUso.Visible = true;
+            }
+            else if (h2.Tipo.ToLower() == "debuff_dano")
+            {
+                danoCuraLabel.Text = "Debuff Dano: " + h2.Dano;
+                roundsUso.Text = "Rounds: " + h2.Rounds_uso;
+                roundsUso.Visible = true;
+            }
+            else if (h2.Tipo.ToLower() == "debuff_defesa")
+            {
+                danoCuraLabel.Text = "Debuff Defesa: " + h2.Dano;
+                roundsUso.Text = "Rounds: " + h2.Rounds_uso;
+                roundsUso.Visible = true;
+            }
+            else if (h2.Tipo.ToLower() == "veneno")
+            {
+                danoCuraLabel.Text = "Veneno: " + h2.Dano;
+                roundsUso.Text = "Rounds: " + h2.Rounds_uso;
+                roundsUso.Visible = true;
+            }
+            custoLabel.Text = "Custo: " + h2.Custo;
+            player_habilidadeEscolhida = h2;
+            if (h2.Custo > pontos_esforco)
+            {
+                usarBt.Enabled = false;
+            }
+            else
+            {
+                usarBt.Enabled = true;
+            }
+        }
+
+        private void habilidade3Picture_Click(object sender, EventArgs e)
+        {
+            groupBoxPlayer1.Visible = true;
+            nomeHabilidadeLabel.Text = "Nome: " + h3.Nome;
+            tipoLabel.Text = "Tipo: " + h3.Tipo;
+            if (h3.Tipo.ToLower() == "cura")
+            {
+                danoCuraLabel.Text = "Cura: " + h3.Dano;
+                roundsUso.Visible = false;
+            }
+            else if (h3.Tipo.ToLower() == "dano")
+            {
+                danoCuraLabel.Text = "Dano: " + h3.Dano;
+                roundsUso.Visible = false;
+            }
+            else if (h3.Tipo.ToLower() == "buff_defesa")
+            {
+                danoCuraLabel.Text = "Buff Defesa: " + h3.Dano;
+                roundsUso.Text = "Rounds: " + h3.Rounds_uso;
+                roundsUso.Visible = true;
+            }
+            else if (h3.Tipo.ToLower() == "buff_dano")
+            {
+                danoCuraLabel.Text = "Buff Dano: " + h3.Dano;
+                roundsUso.Text = "Rounds: " + h3.Rounds_uso;
+                roundsUso.Visible = true;
+            }
+            else if (h3.Tipo.ToLower() == "debuff_dano")
+            {
+                danoCuraLabel.Text = "Debuff Dano: " + h3.Dano;
+                roundsUso.Text = "Rounds: " + h3.Rounds_uso;
+                roundsUso.Visible = true;
+            }
+            else if (h3.Tipo.ToLower() == "debuff_defesa")
+            {
+                danoCuraLabel.Text = "Debuff Defesa: " + h3.Dano;
+                roundsUso.Text = "Rounds: " + h3.Rounds_uso;
+                roundsUso.Visible = true;
+            }
+            else if (h3.Tipo.ToLower() == "veneno")
+            {
+                danoCuraLabel.Text = "Veneno: " + h3.Dano;
+                roundsUso.Text = "Rounds: " + h3.Rounds_uso;
+                roundsUso.Visible = true;
+            }
+            custoLabel.Text = "Custo: " + h3.Custo;
+            player_habilidadeEscolhida = h3;
+            if (h3.Custo > pontos_esforco)
+            {
+                usarBt.Enabled = false;
+            }
+            else
+            {
+                usarBt.Enabled = true;
+            }
+        }
+
+        private void habilidade4Picture_Click(object sender, EventArgs e)
+        {
+            groupBoxPlayer1.Visible = true;
+            nomeHabilidadeLabel.Text = "Nome: " + h4.Nome;
+            tipoLabel.Text = "Tipo: " + h4.Tipo;
+            if (h4.Tipo.ToLower() == "cura")
+            {
+                danoCuraLabel.Text = "Cura: " + h4.Dano;
+                roundsUso.Visible = false;
+            }
+            else if (h4.Tipo.ToLower() == "dano")
+            {
+                danoCuraLabel.Text = "Dano: " + h4.Dano;
+                roundsUso.Visible = false;
+            }
+            else if (h4.Tipo.ToLower() == "buff_defesa")
+            {
+                danoCuraLabel.Text = "Buff Defesa: " + h4.Dano;
+                roundsUso.Text = "Rounds: " + h4.Rounds_uso;
+                roundsUso.Visible = true;
+            }
+            else if (h4.Tipo.ToLower() == "buff_dano")
+            {
+                danoCuraLabel.Text = "Buff Dano: " + h4.Dano;
+                roundsUso.Text = "Rounds: " + h4.Rounds_uso;
+                roundsUso.Visible = true;
+            }
+            else if (h4.Tipo.ToLower() == "debuff_dano")
+            {
+                danoCuraLabel.Text = "Debuff Dano: " + h4.Dano;
+                roundsUso.Visible = true;
+            }
+            else if (h4.Tipo.ToLower() == "debuff_defesa")
+            {
+                danoCuraLabel.Text = "Debuff Defesa: " + h4.Dano;
+                roundsUso.Text = "Rounds: " + h4.Rounds_uso;
+                roundsUso.Visible = true;
+            }
+            else if (h4.Tipo.ToLower() == "veneno")
+            {
+                danoCuraLabel.Text = "Veneno: " + h4.Dano;
+                roundsUso.Text = "Rounds: " + h4.Rounds_uso;
+                roundsUso.Visible = true;
+            }
+            custoLabel.Text = "Custo: " + h4.Custo;
+            player_habilidadeEscolhida = h4;
+            if (h4.Custo > pontos_esforco)
+            {
+                usarBt.Enabled = false;
+            }
+            else
+            {
+                usarBt.Enabled = true;
+            }
+        }
+
+        private void habilidade5Picture_Click(object sender, EventArgs e)
+        {
+            groupBoxPlayer1.Visible = true;
+            nomeHabilidadeLabel.Text = "Nome: " + h5.Nome;
+            tipoLabel.Text = "Tipo: " + h5.Tipo;
+            if (h5.Tipo.ToLower() == "cura")
+            {
+                danoCuraLabel.Text = "Cura: " + h5.Dano;
+                roundsUso.Visible = false;
+            }
+            else if (h5.Tipo.ToLower() == "dano")
+            {
+                danoCuraLabel.Text = "Dano: " + h5.Dano;
+                roundsUso.Visible = false;
+            }
+            else if (h5.Tipo.ToLower() == "buff_defesa")
+            {
+                danoCuraLabel.Text = "Buff Defesa: " + h5.Dano;
+                roundsUso.Text = "Rounds: " + h5.Rounds_uso;
+                roundsUso.Visible = true;
+            }
+            else if (h5.Tipo.ToLower() == "buff_dano")
+            {
+                danoCuraLabel.Text = "Buff Dano: " + h5.Dano;
+                roundsUso.Text = "Rounds: " + h5.Rounds_uso;
+                roundsUso.Visible = true;
+            }
+            else if (h5.Tipo.ToLower() == "debuff_dano")
+            {
+                danoCuraLabel.Text = "Debuff Dano: " + h5.Dano;
+                roundsUso.Text = "Rounds: " + h5.Rounds_uso;
+                roundsUso.Visible = true;
+            }
+            else if (h5.Tipo.ToLower() == "debuff_defesa")
+            {
+                danoCuraLabel.Text = "Debuff Defesa: " + h5.Dano;
+                roundsUso.Text = "Rounds: " + h5.Rounds_uso;
+                roundsUso.Visible = true;
+            }
+            else if (h5.Tipo.ToLower() == "veneno")
+            {
+                danoCuraLabel.Text = "Veneno: " + h5.Dano;
+                roundsUso.Text = "Rounds: " + h5.Rounds_uso;
+                roundsUso.Visible = true;
+            }
+            custoLabel.Text = "Custo: " + h5.Custo;
+            player_habilidadeEscolhida = h5;
+            if (h5.Custo > pontos_esforco)
+            {
+                usarBt.Enabled = false;
+            }
+            else
+            {
+                usarBt.Enabled = true;
+            }
+        }
+
+        private void pularBt_Click(object sender, EventArgs e)
+        {
+            jogada = "bot";
+            pontos_esforco += 5 + (4 * p1.Agilidade);
+            Rounds();
+        }
+    }
+}
