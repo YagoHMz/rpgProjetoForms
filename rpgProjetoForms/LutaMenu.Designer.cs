@@ -32,6 +32,7 @@
             menuStrip1 = new MenuStrip();
             voltarToolStripMenuItem = new ToolStripMenuItem();
             novaLutaBt = new Button();
+            leaderBt = new Button();
             ((System.ComponentModel.ISupportInitialize)lutasDataGrid).BeginInit();
             menuStrip1.SuspendLayout();
             SuspendLayout();
@@ -74,11 +75,22 @@
             novaLutaBt.UseVisualStyleBackColor = true;
             novaLutaBt.Click += button1_Click;
             // 
+            // leaderBt
+            // 
+            leaderBt.Location = new Point(342, 304);
+            leaderBt.Name = "leaderBt";
+            leaderBt.Size = new Size(297, 34);
+            leaderBt.TabIndex = 26;
+            leaderBt.Text = "LeaderBoard";
+            leaderBt.UseVisualStyleBackColor = true;
+            leaderBt.Click += leaderBt_Click;
+            // 
             // LutaMenu
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(651, 450);
+            Controls.Add(leaderBt);
             Controls.Add(novaLutaBt);
             Controls.Add(menuStrip1);
             Controls.Add(lutasDataGrid);
@@ -97,5 +109,6 @@
         private MenuStrip menuStrip1;
         private ToolStripMenuItem voltarToolStripMenuItem;
         private Button novaLutaBt;
+        private Button leaderBt;
     }
 }

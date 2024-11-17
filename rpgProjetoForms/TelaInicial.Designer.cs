@@ -35,12 +35,13 @@
             derrotasLabel = new Label();
             label1 = new Label();
             personagemLabel = new Label();
+            winRate = new Label();
             ((System.ComponentModel.ISupportInitialize)perfilBt).BeginInit();
             SuspendLayout();
             // 
             // inventarioBt
             // 
-            inventarioBt.Location = new Point(78, 212);
+            inventarioBt.Location = new Point(79, 212);
             inventarioBt.Name = "inventarioBt";
             inventarioBt.Size = new Size(258, 27);
             inventarioBt.TabIndex = 2;
@@ -50,7 +51,7 @@
             // 
             // lutasBt
             // 
-            lutasBt.Location = new Point(78, 245);
+            lutasBt.Location = new Point(79, 245);
             lutasBt.Name = "lutasBt";
             lutasBt.Size = new Size(258, 27);
             lutasBt.TabIndex = 3;
@@ -62,7 +63,7 @@
             // 
             perfilBt.Cursor = Cursors.Hand;
             perfilBt.Image = Properties.Resources.perfil;
-            perfilBt.Location = new Point(78, 38);
+            perfilBt.Location = new Point(79, 38);
             perfilBt.Name = "perfilBt";
             perfilBt.Size = new Size(258, 148);
             perfilBt.SizeMode = PictureBoxSizeMode.Zoom;
@@ -73,7 +74,7 @@
             // vitoriasLabel
             // 
             vitoriasLabel.AutoSize = true;
-            vitoriasLabel.Location = new Point(172, 351);
+            vitoriasLabel.Location = new Point(173, 351);
             vitoriasLabel.Name = "vitoriasLabel";
             vitoriasLabel.Size = new Size(70, 15);
             vitoriasLabel.TabIndex = 5;
@@ -82,7 +83,7 @@
             // derrotasLabel
             // 
             derrotasLabel.AutoSize = true;
-            derrotasLabel.Location = new Point(170, 376);
+            derrotasLabel.Location = new Point(171, 376);
             derrotasLabel.Name = "derrotasLabel";
             derrotasLabel.Size = new Size(75, 15);
             derrotasLabel.TabIndex = 6;
@@ -91,7 +92,7 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(136, 287);
+            label1.Location = new Point(137, 287);
             label1.Name = "label1";
             label1.Size = new Size(143, 15);
             label1.TabIndex = 7;
@@ -111,11 +112,24 @@
             personagemLabel.Text = "Boneco";
             personagemLabel.TextAlign = ContentAlignment.MiddleCenter;
             // 
+            // winRate
+            // 
+            winRate.AutoSize = true;
+            winRate.Location = new Point(58, 402);
+            winRate.MaximumSize = new Size(300, 15);
+            winRate.MinimumSize = new Size(300, 15);
+            winRate.Name = "winRate";
+            winRate.Size = new Size(300, 15);
+            winRate.TabIndex = 9;
+            winRate.Text = "Winrate: 0% ";
+            winRate.TextAlign = ContentAlignment.MiddleCenter;
+            // 
             // TelaInicial
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(416, 450);
+            Controls.Add(winRate);
             Controls.Add(personagemLabel);
             Controls.Add(label1);
             Controls.Add(derrotasLabel);
@@ -141,5 +155,6 @@
         private Label derrotasLabel;
         private Label label1;
         private Label personagemLabel;
+        private Label winRate;
     }
 }

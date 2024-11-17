@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace rpgProjetoForms.Models
 {
-    [Table("luta")]
+    [Table("rpg_luta")]
     public class Luta
     {
         private int id;

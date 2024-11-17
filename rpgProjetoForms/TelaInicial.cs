@@ -25,6 +25,14 @@ namespace rpgProjetoForms
             personagemLabel.Text = db.Personagem.Find(p.Fk_personagem_id).Nome;
             vitoriasLabel.Text = "Vitórias: " + p.Vitorias.ToString();
             derrotasLabel.Text = "Derrotas: " + p.Derrotas.ToString();
+            if(p.Vitorias>0 && p.Derrotas>0)
+            {
+                winRate.Text = "Winrate: " + (p.Vitorias / p.Derrotas) * 100 + "%";
+            }
+            else if(p.Vitorias>0 && p.Derrotas<=0)
+            {
+                winRate.Text = "Winrate: " + (p.Vitorias) * 100 + "%";
+            }
 
         }
 

@@ -17,7 +17,10 @@ namespace rpgProjetoForms
         Contexto db;
         public void Refresh()
         {
-            List<Personagem> personagens = db.Personagem.Where(perso => db.ListaPersonagem.Any(lp => lp.FkRpgPlayerId == p.Id)).ToList();
+            var personagens = db.Personagem
+            .Where(perso => db.ListaPersonagem.Any(lp => lp.FkRpgPlayerId == p.Id && lp.FkRpgPersonagemId == perso.Id))
+            .ToList();
+
             inventarioDataGrid.DataSource = personagens;
         }
         public InventárioMenu(Player player)
@@ -40,16 +43,30 @@ namespace rpgProjetoForms
             editarHabilidadesBt.Enabled = true;
             excluirBt.Enabled = true;
             selecionarBt.Enabled = true;
+            if (inventarioDataGrid.CurrentRow == inventarioDataGrid.Rows[0])
+            {
+                editarHabilidadesBt.Enabled = false;
+                excluirBt.Enabled = false;
+                selecionarBt.Enabled = false;
+            }
         }
 
         private void selecionarBt_Click(object sender, EventArgs e)
         {
-            p.Fk_personagem_id = (int)inventarioDataGrid.CurrentRow.Cells[0].Value;
-            db.Player.Update(p);
-            db.SaveChanges();
-            TelaInicial t = new TelaInicial(p);
-            this.Hide();
-            t.Show();
+            if (inventarioDataGrid.CurrentRow == inventarioDataGrid.Rows[0])
+            {
+                MessageBox.Show("Impossível selecionar este...");
+            }
+            else
+            {
+                p.Fk_personagem_id = (int)inventarioDataGrid.CurrentRow.Cells[0].Value;
+                db.Player.Update(p);
+                db.SaveChanges();
+                TelaInicial t = new TelaInicial(p);
+                this.Hide();
+                t.Show();
+            }
+ 
         }
 
         private void excluirBt_Click(object sender, EventArgs e)
@@ -68,7 +85,7 @@ namespace rpgProjetoForms
 
                 if (inventarioDataGrid.CurrentRow == inventarioDataGrid.Rows[0])
                 {
-                    MessageBox.Show("Impossível excluir o personagem inicial...");
+                    MessageBox.Show("Impossível excluir este...");
                 }
                 else
                 {
@@ -90,9 +107,16 @@ namespace rpgProjetoForms
         private void editarHabilidadesBt_Click(object sender, EventArgs e)
         {
             Personagem perso = db.Personagem.Find((int)inventarioDataGrid.CurrentRow.Cells[0].Value);
-            EditarHabilidades h = new EditarHabilidades(p, perso);
-            h.Show();
-            this.Hide();
+            if(inventarioDataGrid.CurrentRow == inventarioDataGrid.Rows[0])
+            {
+                MessageBox.Show("Impossível editar este...");
+            }
+            else
+            {
+                EditarHabilidades h = new EditarHabilidades(p, perso);
+                h.Show();
+                this.Hide();
+            }
         }
 
         private void refreshToolStripMenuItem_Click(object sender, EventArgs e)

@@ -27,7 +27,7 @@ namespace rpgProjetoForms
             {
                 lutasDataGrid.DataSource = db.Luta.Where(l => l.Fk_desafiado_id == p.Id || l.Fk_desafiante_id == p.Id).ToList();
             }
-            catch(Exception)
+            catch (Exception)
             {
 
             }
@@ -36,7 +36,7 @@ namespace rpgProjetoForms
 
         private void voltarToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            InventárioMenu i = new InventárioMenu(p);
+            TelaInicial i = new TelaInicial(p);
             this.Hide();
             i.Show();
         }
@@ -46,6 +46,13 @@ namespace rpgProjetoForms
             LutaTela novaLuta = new LutaTela(p, perso, db.Personagem.First(perso => perso.Id == 5));
             this.Hide();
             novaLuta.Show();
+        }
+
+        private void leaderBt_Click(object sender, EventArgs e)
+        {
+            LeaderBoard l = new LeaderBoard(p, perso);
+            l.Show();
+            this.Hide();
         }
     }
 }

@@ -591,6 +591,8 @@ namespace rpgProjetoForms
             Controls.Add(habilidadePlayer2);
             Controls.Add(habilidadesEscolha);
             Controls.Add(nomeLabel);
+            MaximumSize = new Size(816, 3000);
+            MinimumSize = new Size(816, 711);
             Name = "LutaTela";
             Text = "Luta - ";
             habilidadesEscolha.ResumeLayout(false);

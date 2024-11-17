@@ -152,7 +152,7 @@ namespace rpgProjetoForms
             if (contVeneno2 > 0)
             {
                 contVeneno2--;
-                MessageBox.Show("Tomou +" + venenoSalvar + " de dano em veneno!");
+                MessageBox.Show("Tomou +" + venenoSalvar2 + " de dano em veneno!");
                 vida -= venenoSalvar2;
             }
             else if (contVeneno2 == 0)
@@ -222,6 +222,46 @@ namespace rpgProjetoForms
             round++;
             player_habilidadeEscolhida = new Habilidade();
             bot_habilidadeEscolhida = new Habilidade();
+            if (vida <= 0)
+            {
+                MessageBox.Show("Você perdeu!!");
+                Luta l = new Luta();
+                l.Vencedor = "Bot1";
+                l.Rounds = round;
+                l.Fk_desafiado_id = 11;
+                l.Fk_desafiante_id = player.Id;
+                l.Status = "Derrotado";
+                db.Luta.Add(l);
+                db.SaveChanges();
+
+                player.Derrotas += 1;
+                db.Player.Update(player);
+                db.SaveChanges();
+
+                TelaInicial t = new TelaInicial(player);
+                t.Show();
+                this.Close();
+            }
+            else if(vida2 <=0)
+            {
+                MessageBox.Show("Você ganhou!!");
+                Luta l = new Luta();
+                l.Vencedor = player.Nome;
+                l.Rounds = round;
+                l.Fk_desafiado_id = 11;
+                l.Fk_desafiante_id = player.Id;
+                l.Status = "Vitória";
+                db.Luta.Add(l);
+                db.SaveChanges();
+
+                player.Vitorias += 1;
+                db.Player.Update(player);
+                db.SaveChanges();
+
+                TelaInicial t = new TelaInicial(player);
+                t.Show();
+                this.Close();
+            }
 
             this.Text = "Luta - Round: " + round;
             habilidadePlayer2.Visible = false;
@@ -230,12 +270,12 @@ namespace rpgProjetoForms
             if (jogada == "inicio")
             {
                 int quemJoga = geradorNum.Next(1, 3);
-                quemJoga = 1;
+                //quemJoga = 1;
                 if (quemJoga == 1)
                 {
                     MessageBox.Show("O Player começa!");
                     jogada = "player";
-                    MessageBox.Show("Escolha uma habilidade ou skipe!");
+                    MessageBox.Show("Escolha uma habilidade ou skip!");
                 }
                 else
                 {
@@ -244,21 +284,20 @@ namespace rpgProjetoForms
                 }
             }
 
-            await Task.Delay(1000);
+            await Task.Delay(2000);
 
             if (jogada == "player")
             {
-                habilidadePlayer2.Visible = true;
                 habilidadesEscolha.Enabled = true;
                 pularBt.Enabled = true;
             }
             else if (jogada == "bot")
             {
-
+                habilidadePlayer2.Visible = true;
                 await Task.Delay(1000);
                 habilidadesEscolha.Enabled = false;
                 int rand = 0;
-                string acao;
+                string acao = "";
 
                 do
                 {
@@ -268,27 +307,22 @@ namespace rpgProjetoForms
                     if (qual == 1)
                     {
                         bot_habilidadeEscolhida = p2_h1;
-                        habilidadePlayer2.Image = ByteArrayToImage(p2_h1.Imagem, habilidadePlayer2);
                     }
                     else if (qual == 2)
                     {
                         bot_habilidadeEscolhida = p2_h2;
-                        habilidadePlayer2.Image = ByteArrayToImage(p2_h2.Imagem, habilidadePlayer2);
                     }
                     else if (qual == 3)
                     {
                         bot_habilidadeEscolhida = p2_h3;
-                        habilidadePlayer2.Image = ByteArrayToImage(p2_h3.Imagem, habilidadePlayer2);
                     }
                     else if (qual == 4)
                     {
                         bot_habilidadeEscolhida = p2_h4;
-                        habilidadePlayer2.Image = ByteArrayToImage(p2_h4.Imagem, habilidadePlayer2);
                     }
                     else if (qual == 5)
                     {
                         bot_habilidadeEscolhida = p2_h5;
-                        habilidadePlayer2.Image = ByteArrayToImage(p2_h5.Imagem, habilidadePlayer2);
                     }
 
                     if (rand == 3)
@@ -297,16 +331,68 @@ namespace rpgProjetoForms
                         acao = "skip";
                         habilidadePlayer2.Image = habilidadePlayer2.ErrorImage;
                         pontos_esforco2 += 5 + (4 * p2.Agilidade);
+                        jogada = "player";
+                        pontos_esforco2 += 5 + (4 * p1.Agilidade);
+                        habilidadePlayer2.Visible = false;
+                        pularBt.Enabled = false;
                         MessageBox.Show("O Inimigo decidiu Skipar!");
+                        Rounds();
+                        return;
                     }
-                    else
+                    else if(rand < 3)
                     {
                         acao = "joga";
                     }
-                } while (bot_habilidadeEscolhida.Custo > pontos_esforco) ;
+                } while (bot_habilidadeEscolhida.Custo > pontos_esforco2 || rand > 3) ;
 
                if (acao == "joga")
                 {
+                    habilidadePlayer2.Visible = true;
+                    nome2HabilidadeLabel.Text = bot_habilidadeEscolhida.Nome;
+                    tipo2HabilidadeLabel.Text = "Tipo: " + bot_habilidadeEscolhida.Tipo;
+                    if (bot_habilidadeEscolhida.Tipo.ToLower() == "cura")
+                    {
+                        danocura2Label.Text = "Cura: " + bot_habilidadeEscolhida.Dano;
+                        rounds2Label.Visible = false;
+                    }
+                    else if (bot_habilidadeEscolhida.Tipo.ToLower() == "dano")
+                    {
+                        danocura2Label.Text = "Dano: " + bot_habilidadeEscolhida.Dano;
+                        rounds2Label.Visible = false;
+                    }
+                    else if (bot_habilidadeEscolhida.Tipo.ToLower() == "buff_defesa")
+                    {
+                        danocura2Label.Text = "Buff Defesa: " + bot_habilidadeEscolhida.Dano;
+                        rounds2Label.Text = "Rounds: " + bot_habilidadeEscolhida.Rounds_uso;
+                        rounds2Label.Visible = true;
+                    }
+                    else if (bot_habilidadeEscolhida.Tipo.ToLower() == "buff_dano")
+                    {
+                        danocura2Label.Text = "Buff Dano: " + bot_habilidadeEscolhida.Dano;
+                        rounds2Label.Text = "Rounds: " + bot_habilidadeEscolhida.Rounds_uso;
+                        rounds2Label.Visible = true;
+                    }
+                    else if (bot_habilidadeEscolhida.Tipo.ToLower() == "debuff_dano")
+                    {
+                        danocura2Label.Text = "Debuff Dano: " + bot_habilidadeEscolhida.Dano;
+                        roundsUso.Text = "Rounds: " + bot_habilidadeEscolhida.Rounds_uso;
+                        rounds2Label.Visible = true;
+                    }
+                    else if (bot_habilidadeEscolhida.Tipo.ToLower() == "debuff_defesa")
+                    {
+                        danocura2Label.Text = "Debuff Defesa: " + bot_habilidadeEscolhida.Dano;
+                        rounds2Label.Text = "Rounds: " + bot_habilidadeEscolhida.Rounds_uso;
+                        rounds2Label.Visible = true;
+                    }
+                    else if (bot_habilidadeEscolhida.Tipo.ToLower() == "veneno")
+                    {
+                        danocura2Label.Text = "Veneno: " + bot_habilidadeEscolhida.Dano;
+                        rounds2Label.Text = "Rounds: " + bot_habilidadeEscolhida.Rounds_uso;
+                        rounds2Label.Visible = true;
+                    }
+                    custo2Label.Text = "Custo: " + bot_habilidadeEscolhida.Custo;
+
+                    habilidadePlayer2.Image = ByteArrayToImage(bot_habilidadeEscolhida.Imagem, habilidadePlayer2);
                     try
                     {
                         MessageBox.Show("Habilidade Usada: "+bot_habilidadeEscolhida.Nome);
@@ -352,7 +438,7 @@ namespace rpgProjetoForms
                                 }
                                 else if (maior <= 19)
                                 {
-                                    MessageBox.Show("Você acertou em cheio!");
+                                    MessageBox.Show("Você foi acertado em cheio!");
                                     dano = bot_habilidadeEscolhida.Dano + forca_buff2 + (-1 * defesa_buff) + 2 - defesa;
                                 }
                                 else if (maior == 20)
@@ -409,11 +495,11 @@ namespace rpgProjetoForms
                                 }
                                 else if (maior >= 17)
                                 {
-                                    MessageBox.Show("Inimigo desviou!");
+                                    MessageBox.Show("Você desviou!");
                                 }
                                 else if (maior >= 15)
                                 {
-                                    MessageBox.Show("Atacou! Mas tomou um pouco de dano!");
+                                    MessageBox.Show("Te atacou! Mas tomou um pouco de dano!");
                                     vida2 -= 2;
                                     forca_buff -= bot_habilidadeEscolhida.Dano;
                                     contDebuffDano2 = 1 + bot_habilidadeEscolhida.Rounds_uso;
@@ -427,7 +513,7 @@ namespace rpgProjetoForms
                                 }
                                 else if (maior <= 4)
                                 {
-                                    MessageBox.Show("O inimigo caiu ao tentar desviar!!");
+                                    MessageBox.Show("Você caiu ao tentar desviar!!");
                                 }
 
                             }
@@ -460,17 +546,17 @@ namespace rpgProjetoForms
 
                                 if (maior == 20)
                                 {
-                                    MessageBox.Show("Inimigo desviou!");
+                                    MessageBox.Show("Você desviou!");
                                     MessageBox.Show("Desastre! Se atacou");
                                     vida -= 5;
                                 }
                                 else if (maior >= 17)
                                 {
-                                    MessageBox.Show("Inimigo desviou!");
+                                    MessageBox.Show("Você desviou!");
                                 }
                                 else if (maior >= 15)
                                 {
-                                    MessageBox.Show("Atacou! Mas tomou um pouco de dano!");
+                                    MessageBox.Show("Te Atacou! Mas tomou um pouco de dano!");
                                     vida2 -= 2;
                                     defesa_buff -= bot_habilidadeEscolhida.Dano;
                                     contDebuffDefesa2 = bot_habilidadeEscolhida.Rounds_uso;
@@ -484,7 +570,7 @@ namespace rpgProjetoForms
                                 }
                                 else if (maior <= 4)
                                 {
-                                    MessageBox.Show("O inimigo caiu ao tentar desviar!!");
+                                    MessageBox.Show("Você caiu ao tentar desviar!!");
                                     vida2 -= 3;
                                 }
                             }
@@ -516,17 +602,17 @@ namespace rpgProjetoForms
 
                                 if (maior == 20)
                                 {
-                                    MessageBox.Show("Inimigo desviou!");
+                                    MessageBox.Show("Você desviou!");
                                     MessageBox.Show("Desastre! Se atacou");
                                     vida2 -= 5;
                                 }
                                 else if (maior >= 17)
                                 {
-                                    MessageBox.Show("Inimigo desviou!");
+                                    MessageBox.Show("Você desviou!");
                                 }
                                 else if (maior >= 15)
                                 {
-                                    MessageBox.Show("Atacou! Mas tomou um pouco de dano!");
+                                    MessageBox.Show("Te Atacou! Mas tomou um pouco de dano!");
                                     vida2 -= 2;
                                     venenoSalvar2 = bot_habilidadeEscolhida.Dano;
                                     contVeneno2 = bot_habilidadeEscolhida.Rounds_uso;
@@ -538,7 +624,7 @@ namespace rpgProjetoForms
                                 }
                                 else if (maior <= 4)
                                 {
-                                    MessageBox.Show("O inimigo caiu ao tentar desviar!!");
+                                    MessageBox.Show("Você caiu ao tentar desviar!!");
                                     vida -= 3;
                                 }
                             }
@@ -558,12 +644,15 @@ namespace rpgProjetoForms
                     }
 
                 }
-                if (acao == "skip")
+                /*if (acao == "skip" || habilidadePlayer2.Image == habilidadePlayer2.ErrorImage)
                 {
                     jogada = "player";
                     pontos_esforco2 += 5 + (4 * p1.Agilidade);
+                    habilidadePlayer2.Visible = false;
+                    pularBt.Enabled = false;
+                    MessageBox.Show("O Inimigo decidiu Skipar!");
                     Rounds();
-                }
+                }*/
             }
         }
         public LutaTela(Player player, Personagem perso1, Personagem perso2)
@@ -583,7 +672,7 @@ namespace rpgProjetoForms
             agilidade2 = p2.Agilidade;
             defesa_buff2 = p2.Defesa_buff;
             forca_buff2 = p2.Forca_buff;
-            pontos_esforco = p2.PontosEsforco;
+            pontos_esforco2 = p2.PontosEsforco;
             nome2PersonagemLabel.Text = "Bot - " + p2.Nome;
 
             vida = p1.Vida;
@@ -595,7 +684,7 @@ namespace rpgProjetoForms
             agilidade = p1.Agilidade;
             defesa_buff = p1.Defesa_buff;
             forca_buff = p1.Forca_buff;
-            pontos_esforco = 500;//p1.PontosEsforco;
+            pontos_esforco = p1.PontosEsforco;
             nomeLabel.Text = player.Nome + " - " + p1.Nome;
 
             Refresh();
@@ -801,7 +890,7 @@ namespace rpgProjetoForms
                         int dado = geradorNum.Next(1, 20);
                         int maior = 0;
                         int dano = 0;
-                        for (int i = 0; i < p2.Intelecto; i++)
+                        for (int i = 0; i < p2.Presenca; i++)
                         {
                             dado = geradorNum.Next(1, 20);
                             if (dado > maior)
