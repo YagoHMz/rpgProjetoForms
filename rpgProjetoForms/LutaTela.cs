@@ -224,6 +224,7 @@ namespace rpgProjetoForms
             bot_habilidadeEscolhida = new Habilidade();
             if (vida <= 0)
             {
+                jogada = "jogador";
                 MessageBox.Show("Você perdeu!!");
                 Luta l = new Luta();
                 l.Vencedor = "Bot1";
@@ -232,7 +233,6 @@ namespace rpgProjetoForms
                 l.Fk_desafiante_id = player.Id;
                 l.Status = "Derrotado";
                 db.Luta.Add(l);
-                db.SaveChanges();
 
                 player.Derrotas += 1;
                 db.Player.Update(player);
@@ -244,6 +244,7 @@ namespace rpgProjetoForms
             }
             else if(vida2 <=0)
             {
+                jogada = "jogador";
                 MessageBox.Show("Você ganhou!!");
                 Luta l = new Luta();
                 l.Vencedor = player.Nome;
@@ -252,7 +253,6 @@ namespace rpgProjetoForms
                 l.Fk_desafiante_id = player.Id;
                 l.Status = "Vitória";
                 db.Luta.Add(l);
-                db.SaveChanges();
 
                 player.Vitorias += 1;
                 db.Player.Update(player);
