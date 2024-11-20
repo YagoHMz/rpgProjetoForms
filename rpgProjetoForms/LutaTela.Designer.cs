@@ -671,7 +671,6 @@ namespace rpgProjetoForms
             // 
             // sairBt
             // 
-            sairBt.Enabled = false;
             sairBt.Location = new Point(715, 295);
             sairBt.Name = "sairBt";
             sairBt.Size = new Size(73, 23);

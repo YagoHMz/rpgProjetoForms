@@ -120,19 +120,6 @@
   <metadata name="menuStrip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
   </metadata>
-  <data name="infoToolStripMenuItem.ToolTipText" xml:space="preserve">
-    <value>Quando você cria um personagem, todos os seus atributos começam em 1 e você recebe 4 pontos para distribuir entre eles
-como quiser. Você também pode reduzir um atributo para 0 para receber 1 ponto adicional. O valor máximo inicial 
-que você pode ter em cada atributo é 3.
-
-Origem: Vai te dar um adicional obrigatório em algo respectivo da origem.
-
-Agilidade: Aumenta a quantidade de Pontos de Esforço Regenerados por Round
-Força: Aumenta a quantidade de dados rolados em dano
-Presença: Aumenta a quantidade de dados rolados para resistir à um veneno
-Vigor: Aumenta sua vida
-Intelecto: Aumenta a quantidade de dados rolados para resistir à um debuff</value>
-  </data>
   <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>25</value>
   </metadata>

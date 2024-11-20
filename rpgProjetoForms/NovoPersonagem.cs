@@ -180,7 +180,7 @@ namespace rpgProjetoForms
 
         private void infoToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Quando você cria um personagem, todos os seus atributos começam em 1 e você recebe 4 pontos para distribuir entre eles\r\ncomo quiser. Você também pode reduzir um atributo para 0 para receber 1 ponto adicional. O valor máximo inicial \r\nque você pode ter em cada atributo é 3.\r\n\r\nOrigem: Vai te dar um adicional obrigatório em algo respectivo da origem.\r\n");
+            MessageBox.Show("Quando você cria um personagem, todos os seus atributos começam em 1 e você recebe 4 pontos para distribuir entre eles\r\ncomo quiser. Você também pode reduzir um atributo para 0 para receber 1 ponto adicional. O valor máximo inicial \r\nque você pode ter em cada atributo é 3.\r\n\r\nOrigem: Vai te dar um adicional obrigatório em algo respectivo da origem.\r\n\r\nAgilidade: Aumenta a quantidade de Pontos de Esforço Regenerados por Round\r\nForça: Aumenta a quantidade de dados rolados em dano\r\nPresença: Aumenta a quantidade de dados rolados para resistir à um veneno\r\nVigor: Aumenta sua vida\r\nIntelecto: Aumenta a quantidade de dados rolados para resistir à um debuff");
         }
 
         private void origemCombo_SelectedIndexChanged(object sender, EventArgs e)

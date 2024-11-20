@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(NovoPersonagem));
             label1 = new Label();
             nomeTbox = new TextBox();
             origemLabel = new Label();
@@ -104,7 +103,7 @@
             infoToolStripMenuItem.Name = "infoToolStripMenuItem";
             infoToolStripMenuItem.Size = new Size(85, 20);
             infoToolStripMenuItem.Text = "Informações";
-            infoToolStripMenuItem.ToolTipText = resources.GetString("infoToolStripMenuItem.ToolTipText");
+            infoToolStripMenuItem.ToolTipText = "Quando você cria um personagem, todos os seus atributos começam em 1 e você recebe 4 pontos para distribuir entre eles";
             infoToolStripMenuItem.Click += infoToolStripMenuItem_Click;
             // 
             // origemCombo
