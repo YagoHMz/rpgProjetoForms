@@ -48,10 +48,10 @@
             selecionarBt = new Button();
             menuStrip1 = new MenuStrip();
             voltarToolStripMenuItem = new ToolStripMenuItem();
+            refreshToolStripMenuItem = new ToolStripMenuItem();
             personagemBindingSource1 = new BindingSource(components);
             editarHabilidadesBt = new Button();
             excluirBt = new Button();
-            refreshToolStripMenuItem = new ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)inventarioDataGrid).BeginInit();
             ((System.ComponentModel.ISupportInitialize)personagemBindingSource2).BeginInit();
             ((System.ComponentModel.ISupportInitialize)personagemBindingSource).BeginInit();
@@ -73,6 +73,7 @@
             inventarioDataGrid.ReadOnly = true;
             inventarioDataGrid.Size = new Size(627, 251);
             inventarioDataGrid.TabIndex = 0;
+            inventarioDataGrid.CellClick += inventarioDataGrid_CellClick;
             inventarioDataGrid.CellContentClick += inventarioDataGrid_CellContentClick;
             // 
             // idDataGridViewTextBoxColumn
@@ -204,6 +205,13 @@
             voltarToolStripMenuItem.Text = "Voltar";
             voltarToolStripMenuItem.Click += voltarToolStripMenuItem_Click;
             // 
+            // refreshToolStripMenuItem
+            // 
+            refreshToolStripMenuItem.Name = "refreshToolStripMenuItem";
+            refreshToolStripMenuItem.Size = new Size(58, 20);
+            refreshToolStripMenuItem.Text = "Refresh";
+            refreshToolStripMenuItem.Click += refreshToolStripMenuItem_Click;
+            // 
             // personagemBindingSource1
             // 
             personagemBindingSource1.DataSource = typeof(Models.Personagem);
@@ -229,13 +237,6 @@
             excluirBt.Text = "Excluir Personagem";
             excluirBt.UseVisualStyleBackColor = true;
             excluirBt.Click += excluirBt_Click;
-            // 
-            // refreshToolStripMenuItem
-            // 
-            refreshToolStripMenuItem.Name = "refreshToolStripMenuItem";
-            refreshToolStripMenuItem.Size = new Size(58, 20);
-            refreshToolStripMenuItem.Text = "Refresh";
-            refreshToolStripMenuItem.Click += refreshToolStripMenuItem_Click;
             // 
             // InventárioMenu
             // 

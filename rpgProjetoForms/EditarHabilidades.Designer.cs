@@ -53,7 +53,6 @@
             menuStrip1 = new MenuStrip();
             voltarToolStripMenuItem = new ToolStripMenuItem();
             refreshToolStripMenuItem = new ToolStripMenuItem();
-            salvarBt = new Button();
             tableLayoutPanel1.SuspendLayout();
             groupBox5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)habilidade1BoxPicture).BeginInit();
@@ -317,9 +316,9 @@
             // 
             // novaHabilidadeBt
             // 
-            novaHabilidadeBt.Location = new Point(212, 267);
+            novaHabilidadeBt.Location = new Point(15, 267);
             novaHabilidadeBt.Name = "novaHabilidadeBt";
-            novaHabilidadeBt.Size = new Size(192, 23);
+            novaHabilidadeBt.Size = new Size(389, 23);
             novaHabilidadeBt.TabIndex = 1;
             novaHabilidadeBt.Text = "Nova Habilidade";
             novaHabilidadeBt.UseVisualStyleBackColor = true;
@@ -348,22 +347,11 @@
             refreshToolStripMenuItem.Text = "Refresh";
             refreshToolStripMenuItem.Click += refreshToolStripMenuItem_Click;
             // 
-            // salvarBt
-            // 
-            salvarBt.Location = new Point(12, 267);
-            salvarBt.Name = "salvarBt";
-            salvarBt.Size = new Size(192, 23);
-            salvarBt.TabIndex = 25;
-            salvarBt.Text = "Salvar";
-            salvarBt.UseVisualStyleBackColor = true;
-            salvarBt.Click += salvarBt_Click_1;
-            // 
             // EditarHabilidades
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(416, 450);
-            Controls.Add(salvarBt);
             Controls.Add(menuStrip1);
             Controls.Add(novaHabilidadeBt);
             Controls.Add(tableLayoutPanel1);
@@ -422,6 +410,5 @@
         private ToolStripMenuItem refreshToolStripMenuItem;
         private PictureBox habilidade1Box;
         private PictureBox habilidade1BoxPicture;
-        private Button salvarBt;
     }
 }
