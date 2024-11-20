@@ -330,7 +330,7 @@ namespace rpgProjetoForms
                         jogada = "player";
                         acao = "skip";
                         habilidadePlayer2.Image = habilidadePlayer2.ErrorImage;
-                        pontos_esforco2 += 5 + (4 * p2.Agilidade);
+                        pontos_esforco2 += 7 + (4 * p2.Agilidade);
                         jogada = "player";
                         pontos_esforco2 += 5 + (4 * p1.Agilidade);
                         habilidadePlayer2.Visible = false;
@@ -635,7 +635,7 @@ namespace rpgProjetoForms
                             }
                         }
                         jogada = "player";
-                        pontos_esforco2 += 10 + (2 * p1.Agilidade);
+                        //pontos_esforco2 += 10 + (2 * p1.Agilidade);
                         Rounds();
                     }
                     catch (Exception)
@@ -662,6 +662,18 @@ namespace rpgProjetoForms
             p1 = perso1;
             p2 = perso2;
             db = new Contexto();
+
+            forcaPlayer.Text = "Força: " + p1.Forca;
+            presencaPlayer.Text = "Presença: " + p1.Presenca;
+            vigorPlayer.Text = "Vigor: " + p1.Vigor;
+            intelectoPlayer.Text = "Intelecto: " + p1.Intelecto;
+            agilidadePlayer.Text = "Intelecto: " + p1.Agilidade;
+
+            forcaBot.Text = "Força: " + p2.Forca;
+            presencaBot.Text = "Presença: " + p2.Presenca;
+            vigorBot.Text = "Vigor: " + p2.Vigor;
+            intelectoBot.Text = "Intelecto: " + p2.Intelecto;
+            agilidadeBot.Text = "Intelecto: " + p2.Agilidade;
 
             vida2 = p2.Vida;
             defesa2 = p2.Defesa;
@@ -936,7 +948,7 @@ namespace rpgProjetoForms
                     }
                 }
                 jogada = "bot";
-                pontos_esforco += 10 + (2 * p1.Agilidade);
+                //pontos_esforco += 10 + (2 * p1.Agilidade);
                 Rounds();
             }
             catch (Exception)
@@ -1233,7 +1245,7 @@ namespace rpgProjetoForms
         private void pularBt_Click(object sender, EventArgs e)
         {
             jogada = "bot";
-            pontos_esforco += 5 + (4 * p1.Agilidade);
+            pontos_esforco += 7 + (4 * p1.Agilidade);
             Rounds();
         }
     }

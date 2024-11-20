@@ -83,7 +83,7 @@ namespace rpgProjetoForms
                 roundsGroup.Visible = true;
                 tipo = "veneno";
 
-                danotipoNum.Maximum = 10;
+                danotipoNum.Maximum = 15;
                 fatorCusto = 1;
                 fatorRound = 4;
             }
@@ -93,7 +93,7 @@ namespace rpgProjetoForms
                 tipo = "dano";
 
                 danotipoNum.Maximum = 40;
-                fatorCusto = 1;
+                fatorCusto = 2;
             }
             else if (tipoCombo.SelectedItem == "Buff Dano")
             {
@@ -111,7 +111,7 @@ namespace rpgProjetoForms
                 roundsGroup.Visible = true;
                 tipo = "buff_defesa";
 
-                danotipoNum.Maximum = 5;
+                danotipoNum.Maximum = 6;
                 fatorCusto = 2;
                 fatorRound = 3;
             }

@@ -76,6 +76,16 @@ namespace rpgProjetoForms
             pontos2Label = new Label();
             groupBoxPlayer1 = new GroupBox();
             groupBoxBot = new GroupBox();
+            presencaBot = new Label();
+            forcaBot = new Label();
+            vigorBot = new Label();
+            intelectoBot = new Label();
+            agilidadeBot = new Label();
+            agilidadePlayer = new Label();
+            intelectoPlayer = new Label();
+            vigorPlayer = new Label();
+            forcaPlayer = new Label();
+            presencaPlayer = new Label();
             habilidadesEscolha.SuspendLayout();
             groupBox5.SuspendLayout();
             ((ISupportInitialize)habilidade1BoxPicture).BeginInit();
@@ -535,7 +545,7 @@ namespace rpgProjetoForms
             // pontos2Label
             // 
             pontos2Label.AutoSize = true;
-            pontos2Label.Location = new Point(420, 243);
+            pontos2Label.Location = new Point(513, 256);
             pontos2Label.Name = "pontos2Label";
             pontos2Label.Size = new Size(105, 15);
             pontos2Label.TabIndex = 34;
@@ -568,9 +578,109 @@ namespace rpgProjetoForms
             groupBoxBot.TabIndex = 36;
             groupBoxBot.TabStop = false;
             // 
+            // presencaBot
+            // 
+            presencaBot.AutoSize = true;
+            presencaBot.Location = new Point(378, 158);
+            presencaBot.Name = "presencaBot";
+            presencaBot.Size = new Size(57, 15);
+            presencaBot.TabIndex = 37;
+            presencaBot.Text = "Presença:";
+            // 
+            // forcaBot
+            // 
+            forcaBot.AutoSize = true;
+            forcaBot.Location = new Point(378, 181);
+            forcaBot.Name = "forcaBot";
+            forcaBot.Size = new Size(42, 15);
+            forcaBot.TabIndex = 38;
+            forcaBot.Text = "Força: ";
+            // 
+            // vigorBot
+            // 
+            vigorBot.AutoSize = true;
+            vigorBot.Location = new Point(378, 206);
+            vigorBot.Name = "vigorBot";
+            vigorBot.Size = new Size(38, 15);
+            vigorBot.TabIndex = 39;
+            vigorBot.Text = "Vigor:";
+            // 
+            // intelectoBot
+            // 
+            intelectoBot.AutoSize = true;
+            intelectoBot.Location = new Point(378, 232);
+            intelectoBot.Name = "intelectoBot";
+            intelectoBot.Size = new Size(56, 15);
+            intelectoBot.TabIndex = 40;
+            intelectoBot.Text = "Intelecto:";
+            // 
+            // agilidadeBot
+            // 
+            agilidadeBot.AutoSize = true;
+            agilidadeBot.Location = new Point(378, 256);
+            agilidadeBot.Name = "agilidadeBot";
+            agilidadeBot.Size = new Size(60, 15);
+            agilidadeBot.TabIndex = 41;
+            agilidadeBot.Text = "Agilidade:";
+            // 
+            // agilidadePlayer
+            // 
+            agilidadePlayer.AutoSize = true;
+            agilidadePlayer.Location = new Point(211, 417);
+            agilidadePlayer.Name = "agilidadePlayer";
+            agilidadePlayer.Size = new Size(60, 15);
+            agilidadePlayer.TabIndex = 46;
+            agilidadePlayer.Text = "Agilidade:";
+            // 
+            // intelectoPlayer
+            // 
+            intelectoPlayer.AutoSize = true;
+            intelectoPlayer.Location = new Point(211, 393);
+            intelectoPlayer.Name = "intelectoPlayer";
+            intelectoPlayer.Size = new Size(56, 15);
+            intelectoPlayer.TabIndex = 45;
+            intelectoPlayer.Text = "Intelecto:";
+            // 
+            // vigorPlayer
+            // 
+            vigorPlayer.AutoSize = true;
+            vigorPlayer.Location = new Point(211, 367);
+            vigorPlayer.Name = "vigorPlayer";
+            vigorPlayer.Size = new Size(38, 15);
+            vigorPlayer.TabIndex = 44;
+            vigorPlayer.Text = "Vigor:";
+            // 
+            // forcaPlayer
+            // 
+            forcaPlayer.AutoSize = true;
+            forcaPlayer.Location = new Point(211, 342);
+            forcaPlayer.Name = "forcaPlayer";
+            forcaPlayer.Size = new Size(42, 15);
+            forcaPlayer.TabIndex = 43;
+            forcaPlayer.Text = "Força: ";
+            // 
+            // presencaPlayer
+            // 
+            presencaPlayer.AutoSize = true;
+            presencaPlayer.Location = new Point(211, 319);
+            presencaPlayer.Name = "presencaPlayer";
+            presencaPlayer.Size = new Size(57, 15);
+            presencaPlayer.TabIndex = 42;
+            presencaPlayer.Text = "Presença:";
+            // 
             // LutaTela
             // 
             ClientSize = new Size(800, 672);
+            Controls.Add(agilidadePlayer);
+            Controls.Add(intelectoPlayer);
+            Controls.Add(vigorPlayer);
+            Controls.Add(forcaPlayer);
+            Controls.Add(presencaPlayer);
+            Controls.Add(agilidadeBot);
+            Controls.Add(intelectoBot);
+            Controls.Add(vigorBot);
+            Controls.Add(forcaBot);
+            Controls.Add(presencaBot);
             Controls.Add(groupBoxBot);
             Controls.Add(groupBoxPlayer1);
             Controls.Add(pontos2Label);
@@ -665,6 +775,16 @@ namespace rpgProjetoForms
         private Label pontos2Label;
         private GroupBox groupBoxPlayer1;
         private GroupBox groupBoxBot;
+        private Label presencaBot;
+        private Label forcaBot;
+        private Label vigorBot;
+        private Label intelectoBot;
+        private Label agilidadeBot;
+        private Label agilidadePlayer;
+        private Label intelectoPlayer;
+        private Label vigorPlayer;
+        private Label forcaPlayer;
+        private Label presencaPlayer;
     }
 
         #endregion

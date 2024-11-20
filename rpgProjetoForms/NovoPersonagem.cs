@@ -110,7 +110,7 @@ namespace rpgProjetoForms
                     pers.Intelecto = intelecto;
                     pers.Agilidade = agilidade;
                     pers.Nome = nomeTbox.Text;
-                    pers.PontosEsforco = 20;
+                    pers.PontosEsforco = 20 + (agilidade*4);
                     pers.Origem = origemCombo.SelectedItem.ToString();
                     db.Personagem.Add(pers);
                     db.SaveChanges();
