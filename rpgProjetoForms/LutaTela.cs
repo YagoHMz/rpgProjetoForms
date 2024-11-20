@@ -799,7 +799,6 @@ namespace rpgProjetoForms
                 if (player_habilidadeEscolhida.Tipo.ToLower() == "cura")
                 {
                     vida += player_habilidadeEscolhida.Dano;
-                    MessageBox.Show(vida.ToString());
                 }
                 else if (player_habilidadeEscolhida.Tipo.ToLower() == "dano")
                 {
