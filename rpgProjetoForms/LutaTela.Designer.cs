@@ -86,6 +86,7 @@ namespace rpgProjetoForms
             vigorPlayer = new Label();
             forcaPlayer = new Label();
             presencaPlayer = new Label();
+            sairBt = new Button();
             habilidadesEscolha.SuspendLayout();
             groupBox5.SuspendLayout();
             ((ISupportInitialize)habilidade1BoxPicture).BeginInit();
@@ -668,9 +669,21 @@ namespace rpgProjetoForms
             presencaPlayer.TabIndex = 42;
             presencaPlayer.Text = "Presença:";
             // 
+            // sairBt
+            // 
+            sairBt.Enabled = false;
+            sairBt.Location = new Point(715, 295);
+            sairBt.Name = "sairBt";
+            sairBt.Size = new Size(73, 23);
+            sairBt.TabIndex = 47;
+            sairBt.Text = "Sair";
+            sairBt.UseVisualStyleBackColor = true;
+            sairBt.Click += sairBt_Click;
+            // 
             // LutaTela
             // 
             ClientSize = new Size(800, 672);
+            Controls.Add(sairBt);
             Controls.Add(agilidadePlayer);
             Controls.Add(intelectoPlayer);
             Controls.Add(vigorPlayer);
@@ -785,6 +798,7 @@ namespace rpgProjetoForms
         private Label vigorPlayer;
         private Label forcaPlayer;
         private Label presencaPlayer;
+        private Button sairBt;
     }
 
         #endregion

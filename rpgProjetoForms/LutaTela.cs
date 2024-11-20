@@ -26,8 +26,8 @@ namespace rpgProjetoForms
         string jogada = "inicio";
         Habilidade player_habilidadeEscolhida, bot_habilidadeEscolhida;
 
-        int contBuffDano =-3, contDebuffDano =-3, contBuffDefesa =-3, contDebuffDefesa =-3, contVeneno =-3;
-        int contBuffDano2 =-3, contDebuffDano2 =-3, contBuffDefesa2 =-3, contDebuffDefesa2 =-3, contVeneno2 =-3;
+        int contBuffDano = -3, contDebuffDano = -3, contBuffDefesa = -3, contDebuffDefesa = -3, contVeneno = -3;
+        int contBuffDano2 = -3, contDebuffDano2 = -3, contBuffDefesa2 = -3, contDebuffDefesa2 = -3, contVeneno2 = -3;
 
         int buffDanoSalvar, debuffDanoSalvar, buffDefesaSalvar, debuffDefesaSalvar, venenoSalvar;
         int buffDanoSalvar2, debuffDanoSalvar2, buffDefesaSalvar2, debuffDefesaSalvar2, venenoSalvar2;
@@ -223,7 +223,7 @@ namespace rpgProjetoForms
                 t.Show();
                 this.Close();
             }
-            else if(vida2 <=0)
+            else if (vida2 <= 0)
             {
                 jogada = "jogador";
                 MessageBox.Show("Você ganhou!!");
@@ -320,13 +320,13 @@ namespace rpgProjetoForms
                         Rounds();
                         return;
                     }
-                    else if(rand < 3)
+                    else if (rand < 3)
                     {
                         acao = "joga";
                     }
-                } while (bot_habilidadeEscolhida.Custo > pontos_esforco2 || rand > 3) ;
+                } while (bot_habilidadeEscolhida.Custo > pontos_esforco2 || rand > 3);
 
-               if (acao == "joga")
+                if (acao == "joga")
                 {
                     habilidadeBot.Visible = true;
                     nome2HabilidadeLabel.Text = bot_habilidadeEscolhida.Nome;
@@ -376,7 +376,7 @@ namespace rpgProjetoForms
                     habilidadeBot.Image = ByteArrayToImage(bot_habilidadeEscolhida.Imagem, habilidadeBot);
                     try
                     {
-                        MessageBox.Show("Habilidade Usada: "+bot_habilidadeEscolhida.Nome);
+                        MessageBox.Show("Habilidade Usada: " + bot_habilidadeEscolhida.Nome);
                         pontos_esforco2 -= bot_habilidadeEscolhida.Custo;
                         if (bot_habilidadeEscolhida.Tipo.ToLower() == "cura")
                         {
@@ -686,8 +686,8 @@ namespace rpgProjetoForms
                 h1 = db.Habilidade.FirstOrDefault(h => h.Id == p1.Habilidade1);
             else
                 h1 = db.Habilidade.FirstOrDefault(h => h.Id == 5);
-            
-           
+
+
             if (db.Habilidade.FirstOrDefault(h => h.Id == p1.Habilidade2) != null)
                 h2 = db.Habilidade.FirstOrDefault(h => h.Id == p1.Habilidade2);
             else
@@ -716,8 +716,8 @@ namespace rpgProjetoForms
             p2_h3 = db.Habilidade.FirstOrDefault(h => h.Id == p2.Habilidade3);
             p2_h4 = db.Habilidade.FirstOrDefault(h => h.Id == p2.Habilidade4);
             p2_h5 = db.Habilidade.FirstOrDefault(h => h.Id == p2.Habilidade5);
-            
-            if(ByteArrayToImage(h1.Imagem, habilidade1BoxPicture) != null)
+
+            if (ByteArrayToImage(h1.Imagem, habilidade1BoxPicture) != null)
             {
                 habilidade1BoxPicture.Image = ByteArrayToImage(h1.Imagem, habilidade1BoxPicture);
             }
@@ -725,15 +725,15 @@ namespace rpgProjetoForms
             {
                 habilidade2Picture.Image = ByteArrayToImage(h2.Imagem, habilidade2Picture);
             }
-            if(ByteArrayToImage(h3.Imagem, habilidade3Picture) != null)
+            if (ByteArrayToImage(h3.Imagem, habilidade3Picture) != null)
             {
                 habilidade3Picture.Image = ByteArrayToImage(h3.Imagem, habilidade3Picture);
             }
-            if(ByteArrayToImage(h4.Imagem, habilidade4Picture) != null)
+            if (ByteArrayToImage(h4.Imagem, habilidade4Picture) != null)
             {
                 habilidade4Picture.Image = ByteArrayToImage(h4.Imagem, habilidade4Picture);
             }
-            if(ByteArrayToImage(h5.Imagem, habilidade5Picture) != null)
+            if (ByteArrayToImage(h5.Imagem, habilidade5Picture) != null)
             {
                 habilidade5Picture.Image = ByteArrayToImage(h5.Imagem, habilidade5Picture);
             }
@@ -982,7 +982,7 @@ namespace rpgProjetoForms
                     }
                     else
                     {
-                        venenoSalvar = player_habilidadeEscolhida.Dano+3;
+                        venenoSalvar = player_habilidadeEscolhida.Dano + 3;
                         contVeneno = player_habilidadeEscolhida.Rounds_uso;
                     }
                 }
@@ -999,7 +999,7 @@ namespace rpgProjetoForms
 
         private void habilidade1BoxPicture_Click(object sender, EventArgs e)
         {
-            if(jogada == "player")
+            if (jogada == "player")
             {
                 groupBoxPlayer1.Visible = true;
                 nomeHabilidadeLabel.Text = "Nome: " + h1.Nome;
@@ -1059,7 +1059,7 @@ namespace rpgProjetoForms
 
         private void habilidade2Picture_Click(object sender, EventArgs e)
         {
-            if(jogada == "player")
+            if (jogada == "player")
             {
                 groupBoxPlayer1.Visible = true;
                 nomeHabilidadeLabel.Text = "Nome: " + h2.Nome;
@@ -1119,7 +1119,7 @@ namespace rpgProjetoForms
 
         private void habilidade3Picture_Click(object sender, EventArgs e)
         {
-            if(jogada == "player")
+            if (jogada == "player")
             {
                 groupBoxPlayer1.Visible = true;
                 nomeHabilidadeLabel.Text = "Nome: " + h3.Nome;
@@ -1179,7 +1179,7 @@ namespace rpgProjetoForms
 
         private void habilidade4Picture_Click(object sender, EventArgs e)
         {
-            if(jogada == "player")
+            if (jogada == "player")
             {
                 groupBoxPlayer1.Visible = true;
                 nomeHabilidadeLabel.Text = "Nome: " + h4.Nome;
@@ -1238,7 +1238,7 @@ namespace rpgProjetoForms
 
         private void habilidade5Picture_Click(object sender, EventArgs e)
         {
-            if(jogada == "player")
+            if (jogada == "player")
             {
                 groupBoxPlayer1.Visible = true;
                 nomeHabilidadeLabel.Text = "Nome: " + h5.Nome;
@@ -1301,6 +1301,14 @@ namespace rpgProjetoForms
             jogada = "bot";
             pontos_esforco += 7 + (4 * p1.Agilidade);
             Rounds();
+        }
+
+        private void sairBt_Click(object sender, EventArgs e)
+        {
+            LutaMenu l = new LutaMenu(player, p1);
+            l.Show();
+            this.Hide();
+
         }
     }
 }

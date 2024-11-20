@@ -144,7 +144,13 @@ namespace rpgProjetoForms
         private void novaHabilidade_Click(object sender, EventArgs e)
         {
             NovaHabilidade n = new NovaHabilidade(p, perso);
+            n.FormClosed += (s, args) =>
+            {
+                this.Show();
+                Refresh();
+            };
             n.Show();
+            this.Hide();
         }
 
         private void refreshToolStripMenuItem_Click(object sender, EventArgs e)

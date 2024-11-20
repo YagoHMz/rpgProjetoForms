@@ -63,8 +63,8 @@ namespace rpgProjetoForms
         private void tipoCombo_SelectedIndexChanged(object sender, EventArgs e)
         {
             tudoGroupBox.Visible = true;
-            danotipoNum.Value = 0;
-            custoNum.Value = 0;
+            danotipoNum.Value = 1;
+            custoNum.Value = 1;
             roundsNum.Value = 1;
             roundsGroup.Visible = false;
             criarBt.Enabled = true;

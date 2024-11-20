@@ -116,6 +116,7 @@ namespace rpgProjetoForms
                 EditarHabilidades h = new EditarHabilidades(p, perso);
                 h.Show();
                 this.Hide();
+
             }
         }
 
