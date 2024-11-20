@@ -698,13 +698,13 @@ namespace rpgProjetoForms
             presencaPlayer.Text = "Presença: " + p1.Presenca;
             vigorPlayer.Text = "Vigor: " + p1.Vigor;
             intelectoPlayer.Text = "Intelecto: " + p1.Intelecto;
-            agilidadePlayer.Text = "Intelecto: " + p1.Agilidade;
+            agilidadePlayer.Text = "Agilidade: " + p1.Agilidade;
 
             forcaBot.Text = "Força: " + p2.Forca;
             presencaBot.Text = "Presença: " + p2.Presenca;
             vigorBot.Text = "Vigor: " + p2.Vigor;
             intelectoBot.Text = "Intelecto: " + p2.Intelecto;
-            agilidadeBot.Text = "Intelecto: " + p2.Agilidade;
+            agilidadeBot.Text = "Agilidade: " + p2.Agilidade;
 
             vida2 = p2.Vida;
             defesa2 = p2.Defesa;
