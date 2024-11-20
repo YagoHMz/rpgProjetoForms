@@ -112,6 +112,12 @@ namespace rpgProjetoForms
                     pers.Nome = nomeTbox.Text;
                     pers.PontosEsforco = 20 + (agilidade*4);
                     pers.Origem = origemCombo.SelectedItem.ToString();
+                    pers.Habilidade1 = 5;
+                    pers.Habilidade2 = 5;
+                    pers.Habilidade3 = 5;
+                    pers.Habilidade4 = 5;
+                    pers.Habilidade5 = 5;
+
                     db.Personagem.Add(pers);
                     db.SaveChanges();
 
@@ -123,6 +129,9 @@ namespace rpgProjetoForms
 
                     MessageBox.Show("Personagem criado com sucesso!");
                     MessageBox.Show("Edite as habilidades dele agora!");
+                    InventárioMenu i = new InventárioMenu(p);
+                    i.Show();
+                    this.Hide();
                 }
                 else
                 {

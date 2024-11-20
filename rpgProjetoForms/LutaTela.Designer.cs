@@ -48,7 +48,7 @@ namespace rpgProjetoForms
             groupBox3 = new GroupBox();
             habilidade3Picture = new PictureBox();
             label3 = new Label();
-            habilidadePlayer2 = new PictureBox();
+            habilidadeBot = new PictureBox();
             usarBt = new Button();
             pularBt = new Button();
             nomeHabilidadeLabel = new Label();
@@ -97,7 +97,7 @@ namespace rpgProjetoForms
             ((ISupportInitialize)habilidade5Picture).BeginInit();
             groupBox3.SuspendLayout();
             ((ISupportInitialize)habilidade3Picture).BeginInit();
-            ((ISupportInitialize)habilidadePlayer2).BeginInit();
+            ((ISupportInitialize)habilidadeBot).BeginInit();
             groupBoxPlayer1.SuspendLayout();
             groupBoxBot.SuspendLayout();
             SuspendLayout();
@@ -308,21 +308,21 @@ namespace rpgProjetoForms
             label3.TabIndex = 6;
             label3.Text = "Habilidade 3";
             // 
-            // habilidadePlayer2
+            // habilidadeBot
             // 
-            habilidadePlayer2.BackColor = SystemColors.ControlDark;
-            habilidadePlayer2.BorderStyle = BorderStyle.FixedSingle;
-            habilidadePlayer2.ErrorImage = Properties.Resources.nenhum;
-            habilidadePlayer2.Image = Properties.Resources.nenhum;
-            habilidadePlayer2.InitialImage = Properties.Resources.nenhum;
-            habilidadePlayer2.Location = new Point(19, 15);
-            habilidadePlayer2.MaximumSize = new Size(121, 121);
-            habilidadePlayer2.MinimumSize = new Size(121, 121);
-            habilidadePlayer2.Name = "habilidadePlayer2";
-            habilidadePlayer2.Size = new Size(121, 121);
-            habilidadePlayer2.SizeMode = PictureBoxSizeMode.Zoom;
-            habilidadePlayer2.TabIndex = 8;
-            habilidadePlayer2.TabStop = false;
+            habilidadeBot.BackColor = SystemColors.ControlDark;
+            habilidadeBot.BorderStyle = BorderStyle.FixedSingle;
+            habilidadeBot.ErrorImage = Properties.Resources.nenhum;
+            habilidadeBot.Image = Properties.Resources.nenhum;
+            habilidadeBot.InitialImage = Properties.Resources.nenhum;
+            habilidadeBot.Location = new Point(19, 15);
+            habilidadeBot.MaximumSize = new Size(121, 121);
+            habilidadeBot.MinimumSize = new Size(121, 121);
+            habilidadeBot.Name = "habilidadeBot";
+            habilidadeBot.Size = new Size(121, 121);
+            habilidadeBot.SizeMode = PictureBoxSizeMode.Zoom;
+            habilidadeBot.TabIndex = 8;
+            habilidadeBot.TabStop = false;
             // 
             // usarBt
             // 
@@ -698,7 +698,7 @@ namespace rpgProjetoForms
             Controls.Add(vidaLabel);
             Controls.Add(pularBt);
             Controls.Add(usarBt);
-            Controls.Add(habilidadePlayer2);
+            Controls.Add(habilidadeBot);
             Controls.Add(habilidadesEscolha);
             Controls.Add(nomeLabel);
             MaximumSize = new Size(816, 3000);
@@ -721,7 +721,7 @@ namespace rpgProjetoForms
             groupBox3.ResumeLayout(false);
             groupBox3.PerformLayout();
             ((ISupportInitialize)habilidade3Picture).EndInit();
-            ((ISupportInitialize)habilidadePlayer2).EndInit();
+            ((ISupportInitialize)habilidadeBot).EndInit();
             groupBoxPlayer1.ResumeLayout(false);
             groupBoxPlayer1.PerformLayout();
             groupBoxBot.ResumeLayout(false);
@@ -746,7 +746,7 @@ namespace rpgProjetoForms
         private PictureBox habilidade5Picture;
         private Label label2;
         private Label label1;
-        private PictureBox habilidadePlayer2;
+        private PictureBox habilidadeBot;
         private Button usarBt;
         private Button pularBt;
         private Label nomeHabilidadeLabel;

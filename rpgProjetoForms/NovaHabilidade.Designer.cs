@@ -119,17 +119,21 @@
             // danotipoNum
             // 
             danotipoNum.Location = new Point(0, 28);
+            danotipoNum.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
             danotipoNum.Name = "danotipoNum";
             danotipoNum.Size = new Size(120, 23);
             danotipoNum.TabIndex = 33;
+            danotipoNum.Value = new decimal(new int[] { 1, 0, 0, 0 });
             danotipoNum.ValueChanged += danotipoNum_ValueChanged;
             // 
             // roundsNum
             // 
             roundsNum.Location = new Point(0, 22);
+            roundsNum.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
             roundsNum.Name = "roundsNum";
             roundsNum.Size = new Size(120, 23);
             roundsNum.TabIndex = 34;
+            roundsNum.Value = new decimal(new int[] { 1, 0, 0, 0 });
             roundsNum.ValueChanged += roundsNum_ValueChanged;
             // 
             // label4
@@ -154,9 +158,11 @@
             // 
             custoNum.Enabled = false;
             custoNum.Location = new Point(135, 28);
+            custoNum.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
             custoNum.Name = "custoNum";
             custoNum.Size = new Size(120, 23);
             custoNum.TabIndex = 36;
+            custoNum.Value = new decimal(new int[] { 1, 0, 0, 0 });
             // 
             // criarBt
             // 

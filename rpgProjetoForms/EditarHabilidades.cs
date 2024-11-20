@@ -55,66 +55,62 @@ namespace rpgProjetoForms
                 habilidade4Combo.Text = h4?.Nome;
                 habilidade5Combo.Text = h5?.Nome;
 
-                habilidade1Combo.SelectedIndex = -1;
-                habilidade2Combo.SelectedIndex = -1;
-                habilidade3Combo.SelectedIndex = -1;
                 habilidade4Combo.SelectedIndex = -1;
                 habilidade5Combo.SelectedIndex = -1;
 
                 if (perso.Habilidade1 == 0)
                 {
                     habilidade1BoxPicture.Image = habilidade1BoxPicture.ErrorImage;
-                    
-
+                    habilidade1Combo.SelectedIndex = -1;
                 }
                 else
                 {
                     habilidade1BoxPicture.Image = ByteArrayToImage(h1.Imagem, habilidade1BoxPicture);
-
                 }
 
 
                 if (perso.Habilidade2 == 0)
                 {
-                    habilidade2Picture.Image = habilidade1BoxPicture.ErrorImage;
-                    habilidade2Combo.Text = "";
+                     habilidade2Picture.Image = habilidade1BoxPicture.ErrorImage;
+                     habilidade2Combo.SelectedIndex = -1;
                 }
                 else
-                {
-                    habilidade2Picture.Image = ByteArrayToImage(h2.Imagem, habilidade2Picture);
+                 {
+                     habilidade2Picture.Image = ByteArrayToImage(h2.Imagem, habilidade2Picture);
 
-                }
+                 }
 
-                if (perso.Habilidade3 == 0)
-                {
-                    habilidade3Picture.Image = habilidade1BoxPicture.ErrorImage;
-                    habilidade3Combo.Text = "";
-                }
+                 if (perso.Habilidade3 == 0)
+                 {
+                     habilidade3Picture.Image = habilidade1BoxPicture.ErrorImage;
+                        habilidade3Combo.SelectedIndex = -1;
+
+                    }
+                 else
+                 {
+                     habilidade3Picture.Image = ByteArrayToImage(h3.Imagem, habilidade3Picture);
+
+                 }
+
+                 if (perso.Habilidade4 == 0)
+                 {
+                     habilidade4Picture.Image = habilidade1BoxPicture.ErrorImage;
+                     habilidade4Combo.SelectedIndex = -1;
+                 }
+                 else
+                 {
+                     habilidade4Picture.Image = ByteArrayToImage(h4.Imagem, habilidade4Picture);
+
+                 }
+
+                 if (perso.Habilidade5 == 0)
+                 {
+                     habilidade5Picture.Image = habilidade1BoxPicture.ErrorImage;
+                     habilidade5Combo.SelectedIndex = -1;
+                   }
                 else
                 {
-                    habilidade3Picture.Image = ByteArrayToImage(h3.Imagem, habilidade3Picture);
-
-                }
-
-                if (perso.Habilidade4 == 0)
-                {
-                    habilidade4Picture.Image = habilidade1BoxPicture.ErrorImage;
-                    habilidade4Combo.Text = "";
-                }
-                else
-                {
-                    habilidade4Picture.Image = ByteArrayToImage(h4.Imagem, habilidade4Picture);
-
-                }
-
-                if (perso.Habilidade5 == 0)
-                {
-                    habilidade5Picture.Image = habilidade1BoxPicture.ErrorImage;
-                    habilidade5Combo.Text = "";
-                }
-                else
-                {
-                    habilidade5Picture.Image = ByteArrayToImage(h5.Imagem, habilidade5Picture);
+                     habilidade5Picture.Image = ByteArrayToImage(h5.Imagem, habilidade5Picture);
 
                 }
 
@@ -199,11 +195,29 @@ namespace rpgProjetoForms
 
         private void salvarBt_Click_1(object sender, EventArgs e)
         {
-            perso.Habilidade1 = db.Habilidade.FirstOrDefault(h => h.Nome == habilidade1Combo.SelectedItem && h.FkIdPlayer == p.Id).Id;
-            perso.Habilidade2 = db.Habilidade.FirstOrDefault(h => h.Nome == habilidade2Combo.SelectedItem && h.FkIdPlayer == p.Id).Id;
-            perso.Habilidade3 = db.Habilidade.FirstOrDefault(h => h.Nome == habilidade3Combo.SelectedItem && h.FkIdPlayer == p.Id).Id;
-            perso.Habilidade4 = db.Habilidade.FirstOrDefault(h => h.Nome == habilidade4Combo.SelectedItem && h.FkIdPlayer == p.Id).Id;
-            perso.Habilidade5 = db.Habilidade.FirstOrDefault(h => h.Nome == habilidade5Combo.SelectedItem && h.FkIdPlayer == p.Id).Id;
+            if (habilidade1Combo.SelectedItem != null) { 
+                perso.Habilidade1 = db.Habilidade.FirstOrDefault(h => h.Nome == habilidade1Combo.SelectedItem && h.FkIdPlayer == p.Id).Id;
+            }
+            if (habilidade2Combo.SelectedItem != null)
+            {
+                perso.Habilidade2 = db.Habilidade.FirstOrDefault(h => h.Nome == habilidade2Combo.SelectedItem && h.FkIdPlayer == p.Id).Id;
+
+            }
+            if (habilidade3Combo.SelectedItem != null)
+            {
+                perso.Habilidade3 = db.Habilidade.FirstOrDefault(h => h.Nome == habilidade3Combo.SelectedItem && h.FkIdPlayer == p.Id).Id;
+
+            }
+            if (habilidade4Combo.SelectedItem != null)
+            {
+                perso.Habilidade4 = db.Habilidade.FirstOrDefault(h => h.Nome == habilidade4Combo.SelectedItem && h.FkIdPlayer == p.Id).Id;
+
+            }
+            if (habilidade5Combo.SelectedItem != null)
+            {
+                perso.Habilidade5 = db.Habilidade.FirstOrDefault(h => h.Nome == habilidade5Combo.SelectedItem && h.FkIdPlayer == p.Id).Id;
+
+            }
 
             db.Personagem.Update(perso);
             db.SaveChanges();

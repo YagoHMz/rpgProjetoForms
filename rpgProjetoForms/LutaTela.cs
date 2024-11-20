@@ -169,25 +169,6 @@ namespace rpgProjetoForms
             try
             {
 
-
-                h1 = db.Habilidade.First(h => h.Id == p1.Habilidade1);
-                h2 = db.Habilidade.First(h => h.Id == p1.Habilidade2);
-                h3 = db.Habilidade.First(h => h.Id == p1.Habilidade3);
-                h4 = db.Habilidade.First(h => h.Id == p1.Habilidade4);
-                h5 = db.Habilidade.First(h => h.Id == p1.Habilidade5);
-
-                p2_h1 = db.Habilidade.First(h => h.Id == p2.Habilidade1);
-                p2_h2 = db.Habilidade.First(h => h.Id == p2.Habilidade2);
-                p2_h3 = db.Habilidade.First(h => h.Id == p2.Habilidade3);
-                p2_h4 = db.Habilidade.First(h => h.Id == p2.Habilidade4);
-                p2_h5 = db.Habilidade.First(h => h.Id == p2.Habilidade5);
-
-                habilidade1BoxPicture.Image = ByteArrayToImage(h1.Imagem, habilidade1BoxPicture);
-                habilidade2Picture.Image = ByteArrayToImage(h2.Imagem, habilidade2Picture);
-                habilidade3Picture.Image = ByteArrayToImage(h3.Imagem, habilidade3Picture);
-                habilidade4Picture.Image = ByteArrayToImage(h4.Imagem, habilidade4Picture);
-                habilidade5Picture.Image = ByteArrayToImage(h5.Imagem, habilidade5Picture);
-
                 //Config Bot
 
 
@@ -264,7 +245,7 @@ namespace rpgProjetoForms
             }
 
             this.Text = "Luta - Round: " + round;
-            habilidadePlayer2.Visible = false;
+            habilidadeBot.Visible = false;
             pularBt.Enabled = false;
             usarBt.Enabled = false;
             if (jogada == "inicio")
@@ -293,7 +274,7 @@ namespace rpgProjetoForms
             }
             else if (jogada == "bot")
             {
-                habilidadePlayer2.Visible = true;
+                habilidadeBot.Visible = true;
                 await Task.Delay(1000);
                 habilidadesEscolha.Enabled = false;
                 int rand = 0;
@@ -329,11 +310,11 @@ namespace rpgProjetoForms
                     {
                         jogada = "player";
                         acao = "skip";
-                        habilidadePlayer2.Image = habilidadePlayer2.ErrorImage;
+                        habilidadeBot.Image = habilidadeBot.ErrorImage;
                         pontos_esforco2 += 7 + (4 * p2.Agilidade);
                         jogada = "player";
                         pontos_esforco2 += 5 + (4 * p1.Agilidade);
-                        habilidadePlayer2.Visible = false;
+                        habilidadeBot.Visible = false;
                         pularBt.Enabled = false;
                         MessageBox.Show("O Inimigo decidiu Skipar!");
                         Rounds();
@@ -347,7 +328,7 @@ namespace rpgProjetoForms
 
                if (acao == "joga")
                 {
-                    habilidadePlayer2.Visible = true;
+                    habilidadeBot.Visible = true;
                     nome2HabilidadeLabel.Text = bot_habilidadeEscolhida.Nome;
                     tipo2HabilidadeLabel.Text = "Tipo: " + bot_habilidadeEscolhida.Tipo;
                     if (bot_habilidadeEscolhida.Tipo.ToLower() == "cura")
@@ -392,7 +373,7 @@ namespace rpgProjetoForms
                     }
                     custo2Label.Text = "Custo: " + bot_habilidadeEscolhida.Custo;
 
-                    habilidadePlayer2.Image = ByteArrayToImage(bot_habilidadeEscolhida.Imagem, habilidadePlayer2);
+                    habilidadeBot.Image = ByteArrayToImage(bot_habilidadeEscolhida.Imagem, habilidadeBot);
                     try
                     {
                         MessageBox.Show("Habilidade Usada: "+bot_habilidadeEscolhida.Nome);
@@ -637,6 +618,8 @@ namespace rpgProjetoForms
                         jogada = "player";
                         //pontos_esforco2 += 10 + (2 * p1.Agilidade);
                         Rounds();
+
+                        habilidadeBot.Image = habilidadeBot.ErrorImage;
                     }
                     catch (Exception)
                     {
@@ -698,6 +681,62 @@ namespace rpgProjetoForms
             forca_buff = p1.Forca_buff;
             pontos_esforco = p1.PontosEsforco;
             nomeLabel.Text = player.Nome + " - " + p1.Nome;
+
+            if (db.Habilidade.FirstOrDefault(h => h.Id == p1.Habilidade1) != null)
+                h1 = db.Habilidade.FirstOrDefault(h => h.Id == p1.Habilidade1);
+            else
+                h1 = db.Habilidade.FirstOrDefault(h => h.Id == 5);
+            
+           
+            if (db.Habilidade.FirstOrDefault(h => h.Id == p1.Habilidade2) != null)
+                h2 = db.Habilidade.FirstOrDefault(h => h.Id == p1.Habilidade2);
+            else
+                h2 = db.Habilidade.FirstOrDefault(h => h.Id == 5);
+
+
+            if (db.Habilidade.FirstOrDefault(h => h.Id == p1.Habilidade3) != null)
+                h3 = db.Habilidade.FirstOrDefault(h => h.Id == p1.Habilidade3);
+            else
+                h3 = db.Habilidade.FirstOrDefault(h => h.Id == 5);
+
+
+            if (db.Habilidade.FirstOrDefault(h => h.Id == p1.Habilidade4) != null)
+                h4 = db.Habilidade.FirstOrDefault(h => h.Id == p1.Habilidade4);
+            else
+                h4 = db.Habilidade.FirstOrDefault(h => h.Id == 5);
+
+
+            if (db.Habilidade.FirstOrDefault(h => h.Id == p1.Habilidade5) != null)
+                h5 = db.Habilidade.FirstOrDefault(h => h.Id == p1.Habilidade5);
+            else
+                h5 = db.Habilidade.FirstOrDefault(h => h.Id == 5);
+
+            p2_h1 = db.Habilidade.FirstOrDefault(h => h.Id == p2.Habilidade1);
+            p2_h2 = db.Habilidade.FirstOrDefault(h => h.Id == p2.Habilidade2);
+            p2_h3 = db.Habilidade.FirstOrDefault(h => h.Id == p2.Habilidade3);
+            p2_h4 = db.Habilidade.FirstOrDefault(h => h.Id == p2.Habilidade4);
+            p2_h5 = db.Habilidade.FirstOrDefault(h => h.Id == p2.Habilidade5);
+            
+            if(ByteArrayToImage(h1.Imagem, habilidade1BoxPicture) != null)
+            {
+                habilidade1BoxPicture.Image = ByteArrayToImage(h1.Imagem, habilidade1BoxPicture);
+            }
+            if (ByteArrayToImage(h2.Imagem, habilidade2Picture) != null)
+            {
+                habilidade2Picture.Image = ByteArrayToImage(h2.Imagem, habilidade2Picture);
+            }
+            if(ByteArrayToImage(h3.Imagem, habilidade3Picture) != null)
+            {
+                habilidade3Picture.Image = ByteArrayToImage(h3.Imagem, habilidade3Picture);
+            }
+            if(ByteArrayToImage(h4.Imagem, habilidade4Picture) != null)
+            {
+                habilidade4Picture.Image = ByteArrayToImage(h4.Imagem, habilidade4Picture);
+            }
+            if(ByteArrayToImage(h5.Imagem, habilidade5Picture) != null)
+            {
+                habilidade5Picture.Image = ByteArrayToImage(h5.Imagem, habilidade5Picture);
+            }
 
             Refresh();
             Rounds();
@@ -960,285 +999,300 @@ namespace rpgProjetoForms
 
         private void habilidade1BoxPicture_Click(object sender, EventArgs e)
         {
-            groupBoxPlayer1.Visible = true;
-            nomeHabilidadeLabel.Text = "Nome: " + h1.Nome;
-            tipoLabel.Text = "Tipo: " + h1.Tipo;
-            if (h1.Tipo.ToLower() == "cura")
+            if(jogada == "player")
             {
-                danoCuraLabel.Text = "Cura: " + h1.Dano;
-                roundsUso.Visible = false;
-            }
-            else if (h1.Tipo.ToLower() == "dano")
-            {
-                danoCuraLabel.Text = "Dano: " + h1.Dano;
-                roundsUso.Visible = false;
-            }
-            else if (h1.Tipo.ToLower() == "buff_defesa")
-            {
-                danoCuraLabel.Text = "Buff Defesa: " + h1.Dano;
-                roundsUso.Text = "Rounds: " + h1.Rounds_uso;
-                roundsUso.Visible = true;
-            }
-            else if (h1.Tipo.ToLower() == "buff_dano")
-            {
-                danoCuraLabel.Text = "Buff Dano: " + h1.Dano;
-                roundsUso.Text = "Rounds: " + h1.Rounds_uso;
-                roundsUso.Visible = true;
-            }
-            else if (h1.Tipo.ToLower() == "debuff_dano")
-            {
-                danoCuraLabel.Text = "Debuff Dano: " + h1.Dano;
-                roundsUso.Text = "Rounds: " + h1.Rounds_uso;
-                roundsUso.Visible = true;
-            }
-            else if (h1.Tipo.ToLower() == "debuff_defesa")
-            {
-                danoCuraLabel.Text = "Debuff Defesa: " + h1.Dano;
-                roundsUso.Text = "Rounds: " + h1.Rounds_uso;
-                roundsUso.Visible = true;
-            }
-            else if (h1.Tipo.ToLower() == "veneno")
-            {
-                danoCuraLabel.Text = "Veneno: " + h1.Dano;
-                roundsUso.Text = "Rounds: " + h1.Rounds_uso;
-                roundsUso.Visible = true;
-            }
-            custoLabel.Text = "Custo: " + h1.Custo;
-            player_habilidadeEscolhida = h1;
-            if (h1.Custo > pontos_esforco)
-            {
-                usarBt.Enabled = false;
-            }
-            else
-            {
-                usarBt.Enabled = true;
+                groupBoxPlayer1.Visible = true;
+                nomeHabilidadeLabel.Text = "Nome: " + h1.Nome;
+                tipoLabel.Text = "Tipo: " + h1.Tipo;
+                if (h1.Tipo.ToLower() == "cura")
+                {
+                    danoCuraLabel.Text = "Cura: " + h1.Dano;
+                    roundsUso.Visible = false;
+                }
+                else if (h1.Tipo.ToLower() == "dano")
+                {
+                    danoCuraLabel.Text = "Dano: " + h1.Dano;
+                    roundsUso.Visible = false;
+                }
+                else if (h1.Tipo.ToLower() == "buff_defesa")
+                {
+                    danoCuraLabel.Text = "Buff Defesa: " + h1.Dano;
+                    roundsUso.Text = "Rounds: " + h1.Rounds_uso;
+                    roundsUso.Visible = true;
+                }
+                else if (h1.Tipo.ToLower() == "buff_dano")
+                {
+                    danoCuraLabel.Text = "Buff Dano: " + h1.Dano;
+                    roundsUso.Text = "Rounds: " + h1.Rounds_uso;
+                    roundsUso.Visible = true;
+                }
+                else if (h1.Tipo.ToLower() == "debuff_dano")
+                {
+                    danoCuraLabel.Text = "Debuff Dano: " + h1.Dano;
+                    roundsUso.Text = "Rounds: " + h1.Rounds_uso;
+                    roundsUso.Visible = true;
+                }
+                else if (h1.Tipo.ToLower() == "debuff_defesa")
+                {
+                    danoCuraLabel.Text = "Debuff Defesa: " + h1.Dano;
+                    roundsUso.Text = "Rounds: " + h1.Rounds_uso;
+                    roundsUso.Visible = true;
+                }
+                else if (h1.Tipo.ToLower() == "veneno")
+                {
+                    danoCuraLabel.Text = "Veneno: " + h1.Dano;
+                    roundsUso.Text = "Rounds: " + h1.Rounds_uso;
+                    roundsUso.Visible = true;
+                }
+                custoLabel.Text = "Custo: " + h1.Custo;
+                player_habilidadeEscolhida = h1;
+                if (h1.Custo > pontos_esforco)
+                {
+                    usarBt.Enabled = false;
+                }
+                else
+                {
+                    usarBt.Enabled = true;
+                }
             }
         }
 
         private void habilidade2Picture_Click(object sender, EventArgs e)
         {
-            groupBoxPlayer1.Visible = true;
-            nomeHabilidadeLabel.Text = "Nome: " + h2.Nome;
-            tipoLabel.Text = "Tipo: " + h2.Tipo;
-            if (h2.Tipo.ToLower() == "cura")
+            if(jogada == "player")
             {
-                danoCuraLabel.Text = "Cura: " + h2.Dano;
-                roundsUso.Visible = false;
-            }
-            else if (h2.Tipo.ToLower() == "dano")
-            {
-                danoCuraLabel.Text = "Dano: " + h2.Dano;
-                roundsUso.Visible = false;
-            }
-            else if (h2.Tipo.ToLower() == "buff_defesa")
-            {
-                danoCuraLabel.Text = "Buff Defesa: " + h2.Dano;
-                roundsUso.Text = "Rounds: " + h2.Rounds_uso;
-                roundsUso.Visible = true;
-            }
-            else if (h2.Tipo.ToLower() == "buff_dano")
-            {
-                danoCuraLabel.Text = "Buff Dano: " + h2.Dano;
-                roundsUso.Text = "Rounds: " + h2.Rounds_uso;
-                roundsUso.Visible = true;
-            }
-            else if (h2.Tipo.ToLower() == "debuff_dano")
-            {
-                danoCuraLabel.Text = "Debuff Dano: " + h2.Dano;
-                roundsUso.Text = "Rounds: " + h2.Rounds_uso;
-                roundsUso.Visible = true;
-            }
-            else if (h2.Tipo.ToLower() == "debuff_defesa")
-            {
-                danoCuraLabel.Text = "Debuff Defesa: " + h2.Dano;
-                roundsUso.Text = "Rounds: " + h2.Rounds_uso;
-                roundsUso.Visible = true;
-            }
-            else if (h2.Tipo.ToLower() == "veneno")
-            {
-                danoCuraLabel.Text = "Veneno: " + h2.Dano;
-                roundsUso.Text = "Rounds: " + h2.Rounds_uso;
-                roundsUso.Visible = true;
-            }
-            custoLabel.Text = "Custo: " + h2.Custo;
-            player_habilidadeEscolhida = h2;
-            if (h2.Custo > pontos_esforco)
-            {
-                usarBt.Enabled = false;
-            }
-            else
-            {
-                usarBt.Enabled = true;
+                groupBoxPlayer1.Visible = true;
+                nomeHabilidadeLabel.Text = "Nome: " + h2.Nome;
+                tipoLabel.Text = "Tipo: " + h2.Tipo;
+                if (h2.Tipo.ToLower() == "cura")
+                {
+                    danoCuraLabel.Text = "Cura: " + h2.Dano;
+                    roundsUso.Visible = false;
+                }
+                else if (h2.Tipo.ToLower() == "dano")
+                {
+                    danoCuraLabel.Text = "Dano: " + h2.Dano;
+                    roundsUso.Visible = false;
+                }
+                else if (h2.Tipo.ToLower() == "buff_defesa")
+                {
+                    danoCuraLabel.Text = "Buff Defesa: " + h2.Dano;
+                    roundsUso.Text = "Rounds: " + h2.Rounds_uso;
+                    roundsUso.Visible = true;
+                }
+                else if (h2.Tipo.ToLower() == "buff_dano")
+                {
+                    danoCuraLabel.Text = "Buff Dano: " + h2.Dano;
+                    roundsUso.Text = "Rounds: " + h2.Rounds_uso;
+                    roundsUso.Visible = true;
+                }
+                else if (h2.Tipo.ToLower() == "debuff_dano")
+                {
+                    danoCuraLabel.Text = "Debuff Dano: " + h2.Dano;
+                    roundsUso.Text = "Rounds: " + h2.Rounds_uso;
+                    roundsUso.Visible = true;
+                }
+                else if (h2.Tipo.ToLower() == "debuff_defesa")
+                {
+                    danoCuraLabel.Text = "Debuff Defesa: " + h2.Dano;
+                    roundsUso.Text = "Rounds: " + h2.Rounds_uso;
+                    roundsUso.Visible = true;
+                }
+                else if (h2.Tipo.ToLower() == "veneno")
+                {
+                    danoCuraLabel.Text = "Veneno: " + h2.Dano;
+                    roundsUso.Text = "Rounds: " + h2.Rounds_uso;
+                    roundsUso.Visible = true;
+                }
+                custoLabel.Text = "Custo: " + h2.Custo;
+                player_habilidadeEscolhida = h2;
+                if (h2.Custo > pontos_esforco)
+                {
+                    usarBt.Enabled = false;
+                }
+                else
+                {
+                    usarBt.Enabled = true;
+                }
             }
         }
 
         private void habilidade3Picture_Click(object sender, EventArgs e)
         {
-            groupBoxPlayer1.Visible = true;
-            nomeHabilidadeLabel.Text = "Nome: " + h3.Nome;
-            tipoLabel.Text = "Tipo: " + h3.Tipo;
-            if (h3.Tipo.ToLower() == "cura")
+            if(jogada == "player")
             {
-                danoCuraLabel.Text = "Cura: " + h3.Dano;
-                roundsUso.Visible = false;
-            }
-            else if (h3.Tipo.ToLower() == "dano")
-            {
-                danoCuraLabel.Text = "Dano: " + h3.Dano;
-                roundsUso.Visible = false;
-            }
-            else if (h3.Tipo.ToLower() == "buff_defesa")
-            {
-                danoCuraLabel.Text = "Buff Defesa: " + h3.Dano;
-                roundsUso.Text = "Rounds: " + h3.Rounds_uso;
-                roundsUso.Visible = true;
-            }
-            else if (h3.Tipo.ToLower() == "buff_dano")
-            {
-                danoCuraLabel.Text = "Buff Dano: " + h3.Dano;
-                roundsUso.Text = "Rounds: " + h3.Rounds_uso;
-                roundsUso.Visible = true;
-            }
-            else if (h3.Tipo.ToLower() == "debuff_dano")
-            {
-                danoCuraLabel.Text = "Debuff Dano: " + h3.Dano;
-                roundsUso.Text = "Rounds: " + h3.Rounds_uso;
-                roundsUso.Visible = true;
-            }
-            else if (h3.Tipo.ToLower() == "debuff_defesa")
-            {
-                danoCuraLabel.Text = "Debuff Defesa: " + h3.Dano;
-                roundsUso.Text = "Rounds: " + h3.Rounds_uso;
-                roundsUso.Visible = true;
-            }
-            else if (h3.Tipo.ToLower() == "veneno")
-            {
-                danoCuraLabel.Text = "Veneno: " + h3.Dano;
-                roundsUso.Text = "Rounds: " + h3.Rounds_uso;
-                roundsUso.Visible = true;
-            }
-            custoLabel.Text = "Custo: " + h3.Custo;
-            player_habilidadeEscolhida = h3;
-            if (h3.Custo > pontos_esforco)
-            {
-                usarBt.Enabled = false;
-            }
-            else
-            {
-                usarBt.Enabled = true;
+                groupBoxPlayer1.Visible = true;
+                nomeHabilidadeLabel.Text = "Nome: " + h3.Nome;
+                tipoLabel.Text = "Tipo: " + h3.Tipo;
+                if (h3.Tipo.ToLower() == "cura")
+                {
+                    danoCuraLabel.Text = "Cura: " + h3.Dano;
+                    roundsUso.Visible = false;
+                }
+                else if (h3.Tipo.ToLower() == "dano")
+                {
+                    danoCuraLabel.Text = "Dano: " + h3.Dano;
+                    roundsUso.Visible = false;
+                }
+                else if (h3.Tipo.ToLower() == "buff_defesa")
+                {
+                    danoCuraLabel.Text = "Buff Defesa: " + h3.Dano;
+                    roundsUso.Text = "Rounds: " + h3.Rounds_uso;
+                    roundsUso.Visible = true;
+                }
+                else if (h3.Tipo.ToLower() == "buff_dano")
+                {
+                    danoCuraLabel.Text = "Buff Dano: " + h3.Dano;
+                    roundsUso.Text = "Rounds: " + h3.Rounds_uso;
+                    roundsUso.Visible = true;
+                }
+                else if (h3.Tipo.ToLower() == "debuff_dano")
+                {
+                    danoCuraLabel.Text = "Debuff Dano: " + h3.Dano;
+                    roundsUso.Text = "Rounds: " + h3.Rounds_uso;
+                    roundsUso.Visible = true;
+                }
+                else if (h3.Tipo.ToLower() == "debuff_defesa")
+                {
+                    danoCuraLabel.Text = "Debuff Defesa: " + h3.Dano;
+                    roundsUso.Text = "Rounds: " + h3.Rounds_uso;
+                    roundsUso.Visible = true;
+                }
+                else if (h3.Tipo.ToLower() == "veneno")
+                {
+                    danoCuraLabel.Text = "Veneno: " + h3.Dano;
+                    roundsUso.Text = "Rounds: " + h3.Rounds_uso;
+                    roundsUso.Visible = true;
+                }
+                custoLabel.Text = "Custo: " + h3.Custo;
+                player_habilidadeEscolhida = h3;
+                if (h3.Custo > pontos_esforco)
+                {
+                    usarBt.Enabled = false;
+                }
+                else
+                {
+                    usarBt.Enabled = true;
+                }
             }
         }
 
         private void habilidade4Picture_Click(object sender, EventArgs e)
         {
-            groupBoxPlayer1.Visible = true;
-            nomeHabilidadeLabel.Text = "Nome: " + h4.Nome;
-            tipoLabel.Text = "Tipo: " + h4.Tipo;
-            if (h4.Tipo.ToLower() == "cura")
+            if(jogada == "player")
             {
-                danoCuraLabel.Text = "Cura: " + h4.Dano;
-                roundsUso.Visible = false;
-            }
-            else if (h4.Tipo.ToLower() == "dano")
-            {
-                danoCuraLabel.Text = "Dano: " + h4.Dano;
-                roundsUso.Visible = false;
-            }
-            else if (h4.Tipo.ToLower() == "buff_defesa")
-            {
-                danoCuraLabel.Text = "Buff Defesa: " + h4.Dano;
-                roundsUso.Text = "Rounds: " + h4.Rounds_uso;
-                roundsUso.Visible = true;
-            }
-            else if (h4.Tipo.ToLower() == "buff_dano")
-            {
-                danoCuraLabel.Text = "Buff Dano: " + h4.Dano;
-                roundsUso.Text = "Rounds: " + h4.Rounds_uso;
-                roundsUso.Visible = true;
-            }
-            else if (h4.Tipo.ToLower() == "debuff_dano")
-            {
-                danoCuraLabel.Text = "Debuff Dano: " + h4.Dano;
-                roundsUso.Visible = true;
-            }
-            else if (h4.Tipo.ToLower() == "debuff_defesa")
-            {
-                danoCuraLabel.Text = "Debuff Defesa: " + h4.Dano;
-                roundsUso.Text = "Rounds: " + h4.Rounds_uso;
-                roundsUso.Visible = true;
-            }
-            else if (h4.Tipo.ToLower() == "veneno")
-            {
-                danoCuraLabel.Text = "Veneno: " + h4.Dano;
-                roundsUso.Text = "Rounds: " + h4.Rounds_uso;
-                roundsUso.Visible = true;
-            }
-            custoLabel.Text = "Custo: " + h4.Custo;
-            player_habilidadeEscolhida = h4;
-            if (h4.Custo > pontos_esforco)
-            {
-                usarBt.Enabled = false;
-            }
-            else
-            {
-                usarBt.Enabled = true;
+                groupBoxPlayer1.Visible = true;
+                nomeHabilidadeLabel.Text = "Nome: " + h4.Nome;
+                tipoLabel.Text = "Tipo: " + h4.Tipo;
+                if (h4.Tipo.ToLower() == "cura")
+                {
+                    danoCuraLabel.Text = "Cura: " + h4.Dano;
+                    roundsUso.Visible = false;
+                }
+                else if (h4.Tipo.ToLower() == "dano")
+                {
+                    danoCuraLabel.Text = "Dano: " + h4.Dano;
+                    roundsUso.Visible = false;
+                }
+                else if (h4.Tipo.ToLower() == "buff_defesa")
+                {
+                    danoCuraLabel.Text = "Buff Defesa: " + h4.Dano;
+                    roundsUso.Text = "Rounds: " + h4.Rounds_uso;
+                    roundsUso.Visible = true;
+                }
+                else if (h4.Tipo.ToLower() == "buff_dano")
+                {
+                    danoCuraLabel.Text = "Buff Dano: " + h4.Dano;
+                    roundsUso.Text = "Rounds: " + h4.Rounds_uso;
+                    roundsUso.Visible = true;
+                }
+                else if (h4.Tipo.ToLower() == "debuff_dano")
+                {
+                    danoCuraLabel.Text = "Debuff Dano: " + h4.Dano;
+                    roundsUso.Visible = true;
+                }
+                else if (h4.Tipo.ToLower() == "debuff_defesa")
+                {
+                    danoCuraLabel.Text = "Debuff Defesa: " + h4.Dano;
+                    roundsUso.Text = "Rounds: " + h4.Rounds_uso;
+                    roundsUso.Visible = true;
+                }
+                else if (h4.Tipo.ToLower() == "veneno")
+                {
+                    danoCuraLabel.Text = "Veneno: " + h4.Dano;
+                    roundsUso.Text = "Rounds: " + h4.Rounds_uso;
+                    roundsUso.Visible = true;
+                }
+                custoLabel.Text = "Custo: " + h4.Custo;
+                player_habilidadeEscolhida = h4;
+                if (h4.Custo > pontos_esforco)
+                {
+                    usarBt.Enabled = false;
+                }
+                else
+                {
+                    usarBt.Enabled = true;
+                }
             }
         }
 
         private void habilidade5Picture_Click(object sender, EventArgs e)
         {
-            groupBoxPlayer1.Visible = true;
-            nomeHabilidadeLabel.Text = "Nome: " + h5.Nome;
-            tipoLabel.Text = "Tipo: " + h5.Tipo;
-            if (h5.Tipo.ToLower() == "cura")
+            if(jogada == "player")
             {
-                danoCuraLabel.Text = "Cura: " + h5.Dano;
-                roundsUso.Visible = false;
-            }
-            else if (h5.Tipo.ToLower() == "dano")
-            {
-                danoCuraLabel.Text = "Dano: " + h5.Dano;
-                roundsUso.Visible = false;
-            }
-            else if (h5.Tipo.ToLower() == "buff_defesa")
-            {
-                danoCuraLabel.Text = "Buff Defesa: " + h5.Dano;
-                roundsUso.Text = "Rounds: " + h5.Rounds_uso;
-                roundsUso.Visible = true;
-            }
-            else if (h5.Tipo.ToLower() == "buff_dano")
-            {
-                danoCuraLabel.Text = "Buff Dano: " + h5.Dano;
-                roundsUso.Text = "Rounds: " + h5.Rounds_uso;
-                roundsUso.Visible = true;
-            }
-            else if (h5.Tipo.ToLower() == "debuff_dano")
-            {
-                danoCuraLabel.Text = "Debuff Dano: " + h5.Dano;
-                roundsUso.Text = "Rounds: " + h5.Rounds_uso;
-                roundsUso.Visible = true;
-            }
-            else if (h5.Tipo.ToLower() == "debuff_defesa")
-            {
-                danoCuraLabel.Text = "Debuff Defesa: " + h5.Dano;
-                roundsUso.Text = "Rounds: " + h5.Rounds_uso;
-                roundsUso.Visible = true;
-            }
-            else if (h5.Tipo.ToLower() == "veneno")
-            {
-                danoCuraLabel.Text = "Veneno: " + h5.Dano;
-                roundsUso.Text = "Rounds: " + h5.Rounds_uso;
-                roundsUso.Visible = true;
-            }
-            custoLabel.Text = "Custo: " + h5.Custo;
-            player_habilidadeEscolhida = h5;
-            if (h5.Custo > pontos_esforco)
-            {
-                usarBt.Enabled = false;
-            }
-            else
-            {
-                usarBt.Enabled = true;
+                groupBoxPlayer1.Visible = true;
+                nomeHabilidadeLabel.Text = "Nome: " + h5.Nome;
+                tipoLabel.Text = "Tipo: " + h5.Tipo;
+                if (h5.Tipo.ToLower() == "cura")
+                {
+                    danoCuraLabel.Text = "Cura: " + h5.Dano;
+                    roundsUso.Visible = false;
+                }
+                else if (h5.Tipo.ToLower() == "dano")
+                {
+                    danoCuraLabel.Text = "Dano: " + h5.Dano;
+                    roundsUso.Visible = false;
+                }
+                else if (h5.Tipo.ToLower() == "buff_defesa")
+                {
+                    danoCuraLabel.Text = "Buff Defesa: " + h5.Dano;
+                    roundsUso.Text = "Rounds: " + h5.Rounds_uso;
+                    roundsUso.Visible = true;
+                }
+                else if (h5.Tipo.ToLower() == "buff_dano")
+                {
+                    danoCuraLabel.Text = "Buff Dano: " + h5.Dano;
+                    roundsUso.Text = "Rounds: " + h5.Rounds_uso;
+                    roundsUso.Visible = true;
+                }
+                else if (h5.Tipo.ToLower() == "debuff_dano")
+                {
+                    danoCuraLabel.Text = "Debuff Dano: " + h5.Dano;
+                    roundsUso.Text = "Rounds: " + h5.Rounds_uso;
+                    roundsUso.Visible = true;
+                }
+                else if (h5.Tipo.ToLower() == "debuff_defesa")
+                {
+                    danoCuraLabel.Text = "Debuff Defesa: " + h5.Dano;
+                    roundsUso.Text = "Rounds: " + h5.Rounds_uso;
+                    roundsUso.Visible = true;
+                }
+                else if (h5.Tipo.ToLower() == "veneno")
+                {
+                    danoCuraLabel.Text = "Veneno: " + h5.Dano;
+                    roundsUso.Text = "Rounds: " + h5.Rounds_uso;
+                    roundsUso.Visible = true;
+                }
+                custoLabel.Text = "Custo: " + h5.Custo;
+                player_habilidadeEscolhida = h5;
+                if (h5.Custo > pontos_esforco)
+                {
+                    usarBt.Enabled = false;
+                }
+                else
+                {
+                    usarBt.Enabled = true;
+                }
             }
         }
 
