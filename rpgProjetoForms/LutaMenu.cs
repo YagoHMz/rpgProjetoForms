@@ -43,9 +43,16 @@ namespace rpgProjetoForms
 
         private void button1_Click(object sender, EventArgs e)
         {
-            LutaTela novaLuta = new LutaTela(p, perso, db.Personagem.First(perso => perso.Id == 5));
-            this.Hide();
-            novaLuta.Show();
+            if(p.Fk_personagem_id != 0 && p.Fk_personagem_id != null)
+            {
+                LutaTela novaLuta = new LutaTela(p, perso, db.Personagem.First(perso => perso.Id == 5));
+                this.Hide();
+                novaLuta.Show();
+            }
+            else
+            {
+                MessageBox.Show("Crie um personagem para lutar!");
+            }
         }
 
         private void leaderBt_Click(object sender, EventArgs e)
