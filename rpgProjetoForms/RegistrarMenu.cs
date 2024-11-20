@@ -44,12 +44,12 @@ namespace rpgProjetoForms
 
                     db.ListaPersonagem.Add(lp);
                     db.SaveChanges();
-
                     MessageBox.Show("Registrado com sucesso!");
-                    Login login = new Login();
+                    TelaInicial tela = new TelaInicial(player);                        this.Hide();
+                    tela.Show();
                     this.Hide();
-                    login.Show();
-                }
+
+                    }
             }
             else
             {

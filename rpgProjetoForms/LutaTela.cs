@@ -4,6 +4,8 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Net.Quic;
+using System.Runtime.Intrinsics;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -25,6 +27,7 @@ namespace rpgProjetoForms
         int vida2, defesa2, forca2, presenca2, vigor2, intelecto2, agilidade2, defesa_buff2, forca_buff2, pontos_esforco2;
         string jogada = "inicio";
         Habilidade player_habilidadeEscolhida, bot_habilidadeEscolhida;
+        int buffRage=0, estagioRage=0;
 
         int contBuffDano = -3, contDebuffDano = -3, contBuffDefesa = -3, contDebuffDefesa = -3, contVeneno = -3;
         int contBuffDano2 = -3, contDebuffDano2 = -3, contBuffDefesa2 = -3, contDebuffDefesa2 = -3, contVeneno2 = -3;
@@ -278,10 +281,11 @@ namespace rpgProjetoForms
                 await Task.Delay(1000);
                 habilidadesEscolha.Enabled = false;
                 int rand = 0;
-                string acao = "";
+                string acao = "joga";
 
                 do
                 {
+
                     int qual = geradorNum.Next(1, 6);
                     rand++;
 
@@ -325,6 +329,50 @@ namespace rpgProjetoForms
                         acao = "joga";
                     }
                 } while (bot_habilidadeEscolhida.Custo > pontos_esforco2 || rand > 3);
+
+                int maior2 = 0;
+
+                if (vida2 <= 20 && estagioRage == 0)
+                {
+                    int qual = geradorNum.Next(1, 10);
+                    MessageBox.Show("" + p2.Nome + " se enfureceu!");
+                    estagioRage = 1;
+                    MessageBox.Show("Você tomou "+qual+" pontos de dano!");
+                    vida -= qual;
+
+                }
+
+                else if (vida2 == 1 && estagioRage == 1)
+                {
+                    MessageBox.Show("" + p2.Nome + " vai dar seu último suspiro...");
+                    estagioRage = 2;
+                    MessageBox.Show("Rolando dados do adversário...");
+                    for(int i=0; i<3; i++)
+                    {
+                        int qual = geradorNum.Next(1, 20);
+                        if (qual > maior2)
+                            maior2 = qual;
+
+                        MessageBox.Show("Dado rolado: " + qual);
+
+                    }
+
+
+                }
+            
+
+                if(maior2 == 20 && estagioRage == 2)
+                {
+                    MessageBox.Show("Em seu último suspiro, o adversário usou todas suas forças e se regenerou!");
+                    vida2 += 25;
+                    acao = "skip";
+                }
+                else if(maior2 >= 15 && estagioRage == 2)
+                {
+                    MessageBox.Show("Em seu último suspiro, o adversário usou todas suas forças e te deu 10 de dano!");
+                    vida -= 10;
+                    acao = "skip";
+                }
 
                 if (acao == "joga")
                 {
